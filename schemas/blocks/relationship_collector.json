@@ -1,0 +1,51 @@
+{
+  "$id": "https://eq.ons.gov.uk/blocks/relationship_collector.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "block": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "enum": ["relationships"]
+      },
+      "type": {
+        "type": "string",
+        "enum": ["RelationshipCollector"]
+      },
+      "title": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+      },
+      "page_title": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+      },
+      "for_list": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+      },
+      "question": {
+        "$ref": "https://eq.ons.gov.uk/questions/definitions.json#/question"
+      },
+      "question_variants": {
+        "$ref": "definitions.json#/question_variants"
+      },
+      "unrelated_block": {
+        "$ref": "https://eq.ons.gov.uk/blocks/unrelated_question.json#/block"
+      },
+      "routing_rules": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/routing_rules"
+      },
+      "skip_conditions": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/skip_conditions"
+      }
+    },
+    "additionalProperties": false,
+    "required": ["id", "type", "for_list"],
+    "oneOf": [
+      {
+        "required": ["question"]
+      },
+      {
+        "required": ["question_variants"]
+      }
+    ]
+  }
+}

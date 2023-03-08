@@ -1,0 +1,95 @@
+{
+  "$id": "https://eq.ons.gov.uk/blocks/definitions.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "content": {
+    "description": "Block level content block",
+    "type": "object",
+    "properties": {
+      "title": {
+        "$ref": "https://eq.ons.gov.uk/string_interpolation/definitions.json#/string_with_placeholders",
+        "description": "The top-level heading on the page"
+      },
+      "instruction": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/string_array_with_placeholders"
+      },
+      "contents": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/contents"
+      }
+    },
+    "additionalProperties": false,
+    "required": ["title"]
+  },
+  "content_variants": {
+    "type": "array",
+    "minItems": 2,
+    "items": {
+      "$ref": "definitions.json#/content_variant"
+    }
+  },
+  "content_variant": {
+    "type": "object",
+    "properties": {
+      "content": {
+        "$ref": "https://eq.ons.gov.uk/blocks/definitions.json#/content"
+      },
+      "when": {
+        "oneOf": [
+          {
+            "$ref": "https://eq.ons.gov.uk/when_rule/definitions.json#/when"
+          },
+          {
+            "$ref": "https://eq.ons.gov.uk/rules/boolean_rule.json"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "required": ["when", "content"]
+  },
+  "question_variants": {
+    "type": "array",
+    "description": "All question ids within question_variants must match",
+    "minItems": 2,
+    "items": {
+      "$ref": "definitions.json#/question_variant"
+    }
+  },
+  "question_variant": {
+    "type": "object",
+    "properties": {
+      "question": {
+        "$ref": "https://eq.ons.gov.uk/questions/definitions.json#/question"
+      },
+      "when": {
+        "oneOf": [
+          {
+            "$ref": "https://eq.ons.gov.uk/when_rule/definitions.json#/when"
+          },
+          {
+            "$ref": "https://eq.ons.gov.uk/rules/boolean_rule.json"
+          }
+        ]
+      }
+    },
+    "additionalProperties": false,
+    "required": ["when", "question"]
+  },
+  "list_summary": {
+    "type": "object",
+    "properties": {
+      "for_list": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+      },
+      "summary": {
+        "type": "object",
+        "properties": {
+          "item_title": {
+            "$ref": "https://eq.ons.gov.uk/string_interpolation/definitions.json#/string_with_placeholders"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["item_title"]
+      }
+    }
+  }
+}

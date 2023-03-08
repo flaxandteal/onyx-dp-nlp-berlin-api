@@ -1,0 +1,104 @@
+{
+  "$id": "https://eq.ons.gov.uk/questions/types/mutually_exclusive.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "question": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/identifier"
+      },
+      "title": {
+        "$ref": "https://eq.ons.gov.uk/string_interpolation/definitions.json#/string_with_placeholders"
+      },
+      "number": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+      },
+      "description": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/string_array_with_placeholders"
+      },
+      "instruction": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/string_array_with_placeholders"
+      },
+      "warning": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+      },
+      "definitions": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/question_definitions"
+      },
+      "guidance": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/guidance"
+      },
+      "type": {
+        "type": "string",
+        "enum": ["MutuallyExclusive"]
+      },
+      "mandatory": {
+        "type": "boolean"
+      },
+      "answers": {
+        "type": "array",
+        "minItems": 2,
+        "maxItems": 2,
+        "items": {
+          "oneOf": [
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/checkbox.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/currency.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/date.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/month_year_date.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/year_date.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/duration.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/number.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/percentage.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/text_area.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/text_field.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/unit.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/dropdown.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/radio.json#/answer"
+            }
+          ]
+        }
+      },
+      "validation": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "MUTUALLY_EXCLUSIVE": {
+              "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+            },
+            "MANDATORY_QUESTION": {
+              "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false,
+    "required": ["id", "type", "mandatory", "answers", "title"]
+  }
+}

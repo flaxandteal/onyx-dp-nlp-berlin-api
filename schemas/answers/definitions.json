@@ -1,0 +1,124 @@
+{
+  "$id": "https://eq.ons.gov.uk/answers/definitions.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "calculated": {
+    "type": "boolean",
+    "description": "Indicates that the answer should be treated as the result of a calculation."
+  },
+  "options": {
+    "type": "array",
+    "uniqueItems": true,
+    "items": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "$ref": "https://eq.ons.gov.uk/string_interpolation/definitions.json#/string_with_placeholders"
+        },
+        "value": {
+          "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string"
+        },
+        "q_code": {
+          "$ref": "https://eq.ons.gov.uk/common_definitions.json#/q_code"
+        },
+        "detail_answer": {
+          "oneOf": [
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/text_field.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/number.json#/answer"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answers/dropdown.json#/answer"
+            }
+          ]
+        },
+        "description": {
+          "$ref": "https://eq.ons.gov.uk/string_interpolation/definitions.json#/string_with_placeholders",
+          "description": "Descriptive text that appears below the option label"
+        },
+        "action": {
+          "type": "object",
+          "oneOf": [
+            {
+              "$ref": "https://eq.ons.gov.uk/answer_actions/definitions.json#/redirect_to_list_add_block"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answer_actions/definitions.json#/remove_list_item_and_answers"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answer_actions/definitions.json#/remove_unrelated_relationships"
+            },
+            {
+              "$ref": "https://eq.ons.gov.uk/answer_actions/definitions.json#/add_unrelated_relationships"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": ["label", "value"]
+    }
+  },
+  "dynamic_options": {
+    "type": "object",
+    "properties": {
+      "values": {
+        "oneOf": [
+          { "$ref": "https://eq.ons.gov.uk/rules/operators/value/map.json" },
+          {
+            "$ref": "https://eq.ons.gov.uk/value_sources.json#/any_value_source_except_location"
+          }
+        ]
+      },
+      "transform": {
+        "$ref": "https://eq.ons.gov.uk/rules/definitions.json#/non_array_value_operators"
+      }
+    },
+    "additionalProperties": false,
+    "required": ["values", "transform"]
+  },
+  "min_value": {
+    "type": "object",
+    "properties": {
+      "value": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/value_reference"
+      },
+      "exclusive": {
+        "type": "boolean",
+        "description": "Whether validation is exclusive of value or not"
+      }
+    },
+    "additionalProperties": false
+  },
+  "max_value": {
+    "type": "object",
+    "properties": {
+      "value": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/value_reference"
+      },
+      "exclusive": {
+        "type": "boolean",
+        "description": "Whether validation is exclusive of value or not"
+      }
+    },
+    "additionalProperties": false
+  },
+  "answer_guidance": {
+    "description": "Answer guidance",
+    "type": "object",
+    "properties": {
+      "show_guidance": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string",
+        "description": "The text that is used for the 'Show guidance' link."
+      },
+      "hide_guidance": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/non_empty_string",
+        "description": "The text that is used for the 'Hide guidance' link."
+      },
+      "contents": {
+        "$ref": "https://eq.ons.gov.uk/common_definitions.json#/contents"
+      }
+    },
+    "additionalProperties": false
+  }
+}

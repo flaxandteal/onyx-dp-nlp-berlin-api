@@ -1,0 +1,128 @@
+{
+  "mime_type": "application/json/ons/eq",
+  "language": "en",
+  "schema_version": "0.0.1",
+  "data_version": "0.0.3",
+  "survey_id": "0",
+  "title": "Other input fields",
+  "theme": "default",
+  "description": "A questionnaire to demo checkbox field Other input.",
+  "messages": {
+    "NUMBER_TOO_LARGE": "Number is too large",
+    "NUMBER_TOO_SMALL": "Number cannot be less than zero",
+    "INVALID_NUMBER": "Please enter an integer"
+  },
+  "metadata": [
+    {
+      "name": "user_id",
+      "type": "string"
+    },
+    {
+      "name": "period_id",
+      "type": "string"
+    },
+    {
+      "name": "ru_name",
+      "type": "string"
+    }
+  ],
+  "questionnaire_flow": {
+    "type": "Hub",
+    "options": {
+      "required_completed_sections": ["default-section"]
+    }
+  },
+  "sections": [
+    {
+      "id": "default-section",
+      "groups": [
+        {
+          "blocks": [
+            {
+              "type": "Question",
+              "id": "mandatory-checkbox",
+              "question": {
+                "answers": [
+                  {
+                    "id": "mandatory-checkbox-answer",
+                    "label": "Label",
+                    "mandatory": true,
+                    "options": [
+                      {
+                        "label": "Yes",
+                        "value": "Yes"
+                      },
+                      {
+                        "label": "No",
+                        "value": "No"
+                      }
+                    ],
+                    "type": "Checkbox",
+                    "validation": {
+                      "messages": {}
+                    }
+                  }
+                ],
+                "id": "mandatory-checkbox-question",
+                "title": "Should the second section be enabled?",
+                "type": "General"
+              }
+            }
+          ],
+          "id": "checkboxes"
+        }
+      ]
+    },
+    {
+      "id": "optionally-enabled-section",
+      "enabled": [
+        {
+          "when": [
+            {
+              "id": "mandatory-checkbox-answer",
+              "condition": "contains any",
+              "values": ["Yes"]
+            }
+          ]
+        }
+      ],
+      "groups": [
+        {
+          "blocks": [
+            {
+              "type": "Question",
+              "id": "non-mandatory-checkbox",
+              "question": {
+                "answers": [
+                  {
+                    "id": "non-mandatory-checkbox-answer",
+                    "label": "Label",
+                    "mandatory": true,
+                    "options": [
+                      {
+                        "label": "Yes",
+                        "value": "Yes"
+                      },
+                      {
+                        "label": "No",
+                        "value": "No"
+                      }
+                    ],
+                    "type": "Checkbox",
+                    "validation": {
+                      "messages": {}
+                    }
+                  }
+                ],
+                "id": "non-mandatory-checkbox-question",
+                "title": "Was this section shown?",
+                "type": "General"
+              }
+            }
+          ],
+          "id": "second-section-checkboxes"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$id": "https://eq.ons.gov.uk/string_interpolation/transforms/format_currency.json",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "format_currency": {
+    "type": "object",
+    "properties": {
+      "transform": {
+        "type": "string",
+        "enum": ["format_currency"]
+      },
+      "arguments": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "$ref": "https://eq.ons.gov.uk/string_interpolation/definitions.json#/placeholder_value_sources"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["number"]
+      }
+    },
+    "additionalProperties": false,
+    "required": ["transform", "arguments"]
+  }
+}
