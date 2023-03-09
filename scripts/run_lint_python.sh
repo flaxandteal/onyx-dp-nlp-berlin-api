@@ -31,6 +31,6 @@ display_result $? 2 "Pylint linting check"
 isort --check .
 display_result $? 1 "isort linting check"
 
-black --check . --exclude node_modules
+black --check .
 
 display_result $? 1 "Python code formatting check"

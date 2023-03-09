@@ -1,78 +1,54 @@
 import json
-import os
-import urllib
 from json import JSONDecodeError
 
-import requests
 from flask import Blueprint, Response, jsonify, request
 from requests import RequestException
 from structlog import get_logger
 
-from app.validators.questionnaire_validator import QuestionnaireValidator
-
 logger = get_logger()
 
-validate_blueprint = Blueprint("validate", __name__)
-
-AJV_HOST = os.getenv("AJV_HOST", "localhost")
-
-AJV_VALIDATOR_URL = f"http://{AJV_HOST}:5002/validate"
+berlin_blueprint = Blueprint("berlin", __name__)
 
 
-@validate_blueprint.route("/validate", methods=["POST"])
-def validate_schema_request_body():
-    logger.info("Validating schema")
-    return validate_schema(request.data.decode())
+@berlin_blueprint.route("/berlin/fetch-schema", methods=["GET"])
+def berlin_fetch_schema():
+    logger.info("Fetch schema")
+    return jsonify({}), 200
 
 
-@validate_blueprint.route("/validate", methods=["GET"])
-def validate_schema_from_url():
-    values = request.args
-    if "url" in values:
-        logger.info("Validating schema from URL", url=values["url"])
-        try:
-            with urllib.request.urlopen(values["url"]) as url:
-                return validate_schema(url.read().decode())
-        except urllib.error.URLError:
-            return (
-                Response(
-                    status=404,
-                    response=f'Could not load schema at URL [{values["url"]}]',
-                ),
-            )
+@berlin_blueprint.route("/berlin/code/:key", methods=["GET"])
+def berlin_code():
+    logger.info("Retrieve code")
+    return jsonify({}), 200
 
 
-def validate_schema(data):
+@berlin_blueprint.route("/berlin/search-schema", methods=["GET"])
+def berlin_search_schema():
+    logger.info("Search schema")
+    return jsonify({}), 200
+
+
+@berlin_blueprint.route("/berlin/search", methods=["GET"])
+def berlin_search():
     try:
-        json_to_validate = json.loads(data)
+        json_search_parameters = json.loads(request.data.decode())
     except JSONDecodeError:
         logger.info("Could not parse JSON", status=400)
         return Response(status=400, response="Could not parse JSON")
 
     response = {}
     try:
-        ajv_response = requests.post(
-            AJV_VALIDATOR_URL, json=json_to_validate, timeout=10
-        )
-        ajv_response_dict = ajv_response.json()
-
-        if ajv_response_dict:
-            response["errors"] = ajv_response_dict["errors"]
-            logger.info("Schema validator returned errors", status=400)
-            return jsonify(response), 400
+        # get response
+        locations = True
 
     except RequestException:
-        logger.info("AJV Schema validator service unavailable")
-        return jsonify(error="AJV Schema validator service unavailable")
+        logger.info("Berlin error [TODO: more information]")
+        return jsonify(error="Berlin error [TODO: more information]")
 
-    validator = QuestionnaireValidator(json_to_validate)
-    validator.validate()
+    if len(locations) == 0:
+        logger.info("No locations found", status=404)
+        return jsonify(response), 404
 
-    if len(validator.errors) > 0:
-        response["errors"] = validator.errors
-        logger.info("Questionnaire validator returned errors", status=400)
-        return jsonify(response), 400
-
-    logger.info("Schema validation passed", status=200)
+    logger.info("Found location", status=200)
 
     return jsonify(response), 200

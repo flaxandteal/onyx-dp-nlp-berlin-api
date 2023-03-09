@@ -4,5 +4,5 @@ status_blueprint = Blueprint("status", __name__)
 
 
 @status_blueprint.route("/status", methods=["GET"])
-def validate_schema():
+def status():
     return Response(status=200)
