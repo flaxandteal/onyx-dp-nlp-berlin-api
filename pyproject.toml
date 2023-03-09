@@ -19,7 +19,8 @@ classifiers = [
 dependencies = [
     "Flask>=2.0.2<2.1",
     "structlog>=21.5.0,<21.6",
-    "python-dateutil>=2.8.2,<2.9"
+    "python-dateutil>=2.8.2,<2.9",
+    "berlin>=0.3.0,<4",
 ]
 
 [project.optional-dependencies]
@@ -38,10 +39,15 @@ dev = [
 target_version = ['py38']
 
 [tool.poetry]
-name = "eq-questionnaire-validator"
+name = "dp-nlp-berlin-api"
 version = "0.1.0"
-description = "API for questionnaire schema validation"
+description = "API for location matching"
 authors = ["ONSDigital"]
+
+packages = [
+    { include = "dp_nlp_berlin_api", from = "app" },
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -58,7 +64,11 @@ pytest-cov = "^3.0.0"
 pytest-xdist = "^2.5.0"
 pytest-sugar = "^0.9.4"
 black = "^22.10.0"
+berlin = "^0.3.0"
 
+#[tool.setuptools.packages.find]
+#where = ["src"]
+#
 #[build-system]
 #requires = ["setuptools", "setuptools-scm"]
 #build-backend = "setuptools.build_meta"

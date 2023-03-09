@@ -18,3 +18,8 @@ format: format-python
 format-python:
 	poetry run isort .
 	poetry run black .
+
+
+run:
+	poetry run ./scripts/run_app.sh
+
