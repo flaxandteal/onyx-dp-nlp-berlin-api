@@ -1,8 +1,8 @@
 from flask import Blueprint, Response
-from logger import configure_logging, setup_logger
+from app.logger import configure_logging, setup_logger
 
 configure_logging()
-logger = setup_logger()
+logger = setup_logger(severity=3)
 
 health_blueprint = Blueprint("health", __name__)
 
