@@ -4,16 +4,12 @@ from json import JSONDecodeError
 from flask import Blueprint, Response, jsonify, request
 from requests import RequestException
 from logger import configure_logging, setup_logger
-import berlin
+from app.store import get_db
 
 configure_logging()
 logger = setup_logger()
 
 berlin_blueprint = Blueprint("berlin", __name__)
-
-# FIXME: better initting
-db = berlin.load("data")
-
 
 @berlin_blueprint.route("/berlin/fetch-schema", methods=["GET"])
 def berlin_fetch_schema():
@@ -50,7 +46,7 @@ def berlin_search():
 
 
     try:
-        result = db.query(query, state, limit, lev_distance)
+        result = get_db().query(query, state, limit, lev_distance)
         locations = {
             "matches": [
                 {
