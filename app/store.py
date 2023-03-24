@@ -1,7 +1,7 @@
 import functools
-import berlin
+from berlin import load
 
 @functools.cache
 def get_db(location: str = "data"):
-    db = berlin.load(location)
+    db = load(location)
     return db
