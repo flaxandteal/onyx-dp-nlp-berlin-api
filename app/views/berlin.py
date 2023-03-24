@@ -3,10 +3,11 @@ from json import JSONDecodeError
 
 from flask import Blueprint, Response, jsonify, request
 from requests import RequestException
-from structlog import get_logger
+from logger import configure_logging, setup_logger
 import berlin
 
-logger = get_logger()
+configure_logging()
+logger = setup_logger()
 
 berlin_blueprint = Blueprint("berlin", __name__)
 
