@@ -1,18 +1,30 @@
 import json
-from json import JSONDecodeError
+from datetime import datetime
+import berlin
+import time
 
+
+from json import JSONDecodeError
+from app.views.healthcheck import Healthcheck
 from flask import Blueprint, Response, jsonify, request
 from requests import RequestException
 from structlog import get_logger
-import berlin
+
+start_time = datetime.utcnow().isoformat()
+uptime = time.time()
+
+health = Healthcheck(status="OK", version='1.0.0', uptime=uptime, start_time=start_time, checks=[])
 
 logger = get_logger()
 
 berlin_blueprint = Blueprint("berlin", __name__)
-
-# FIXME: better initting
+   
 db = berlin.load("data")
 
+@berlin_blueprint.route("/health", methods=["GET"])
+def healthcheck():
+    logger.info("Fetch healthcheck")
+    return health.to_json(), 200
 
 @berlin_blueprint.route("/berlin/fetch-schema", methods=["GET"])
 def berlin_fetch_schema():
@@ -43,13 +55,13 @@ def berlin_search():
 
     # validate
     query = json_search_parameters["q"]
-    state = json_search_parameters["state"]
-    limit = json_search_parameters.get("limit", 1)
-    lev_distance = max(int(json_search_parameters.get("ld", 2)), 2)
+    # state = json_search_parameters["state"]
+    # limit = json_search_parameters.get("limit", 1)
+    # lev_distance = max(int(json_search_parameters.get("ld", 2)), 2)
 
 
     try:
-        result = db.query(query, state, limit, lev_distance)
+        result = db.query(query, "berlin", 1, 2)
         locations = {
             "matches": [
                 {
