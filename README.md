@@ -1,22 +1,54 @@
-# berlin-rs
+# dp-nlp-berlin-api
 
-A Python/Rust microservice to identify locations and tag them with UN-LOCODEs and
+A Python microservice to wrap the Berlin package for identifying locations and tagging them with UN-LOCODEs and
 ISO-3166-2 subdivisions.
 
+## Setup
 
-### Getting started
+It is recommended that you use [Pyenv](https://github.com/pyenv/pyenv) to manage your Python installations.
 
-To test the Rust API locally:
-
-```shell
-  make run
+### Install Poetry
+```
+curl -sSL https://install.python-poetry.org | python3 - 
+poetry install
 ```
 
-This will make an API available on port 3001. It serves simple requests of the
+## Running
+
+To run the app:
+
+```
+make run
+```
+
+## Testing
+
+By default, all schemas in the `tests/schemas/valid` directory will be evaluated as part of the unit tests.
+Any errors in these schemas will cause a failure.
+
+To run the app's unit tests:
+
+```
+make test
+```
+
+To test the apps functionality:
+```
+make run
+```
+
+Then, in another terminal window/tab, navigate to a checked out copy of eq-survey-runner:
+```
+make test
+```
+
+## Usage
+
+This will make an API available on port 5001. It serves simple requests of the
 form:
 
 ```shell
-curl 'http://localhost:3001/berlin/search?q=house+prices+in+londo&state=gb' | jq
+curl 'http://localhost:5001/berlin/search?q=house+prices+in+londo&state=gb' | jq
 ```
 
 replacing `localhost` with the local endpoint (`jq` used for formatting).
@@ -78,26 +110,8 @@ This will return results of the form:
 }
 ```
 
-A Python wheel can also be built, using
 
-```shell
-  make wheels
-  pip install build/wheels/berlin-0.1.0-xyz.whl
-```
-
-where `xyz` is your architecture.
-
-Afterwards berlin should be functional inside a python shell/script. Example:
-
-```python
-import berlin
-
-db = berlin.load('../data')
-loc = db.query('manchester population', 'gb', 1)[0];
-print("location:", loc.words)
-```
-
-### Description
+## Description
 
 Berlin is a location search engine which  works on an in-memory collection of
 all UN Locodes, subdivisions and states (countries). Here are the main
@@ -138,14 +152,6 @@ in under 10 milliseconds if deemed desirable.
 
 ### License
 
-Prepared by Flax & Teal Limited for ONS Alpha project.
-Copyright © 2022, Office for National Statistics (https://www.ons.gov.uk)
-
-Released under MIT license, see [LICENSE](LICENSE.md) for details.
-
-### License
-
-Prepared by Flax & Teal Limited for ONS Alpha project.
-Copyright © 2022, Office for National Statistics (https://www.ons.gov.uk)
-
-Released under MIT license, see [LICENSE](LICENSE.md) for details.
+Prepared by Flax & Teal Limited for ONS Digital (see LICENSE).
+This API is based on [eq-questionnaire-validator](https://github.com/ONSdigital/eq-questionnaire-validator), a tool
+from ONS Digital.

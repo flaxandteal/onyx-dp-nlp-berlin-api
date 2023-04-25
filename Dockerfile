@@ -1,24 +1,23 @@
-FROM rust:1.58 as chef
-WORKDIR /app
-RUN cargo install cargo-chef --locked
+FROM python:3.10-slim
 
-FROM chef AS planner
-COPY . .
-RUN cargo chef prepare  --recipe-path recipe.json
+RUN apt-get update && apt-get install --no-install-recommends -y git \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
-# Build dependencies - this is the caching Docker layer
-FROM chef AS deps-builder
-COPY --from=planner /app/recipe.json recipe.json
-RUN cargo chef cook --release --recipe-path recipe.json
+RUN pip install "poetry==1.2.1"
+RUN poetry config virtualenvs.create false
 
-# Actually build with our source code (not only deps)
-FROM deps-builder as builder
-COPY . .
-RUN cargo build --release
+RUN mkdir -p /usr/src/
+WORKDIR /usr/src/
 
-# We do not need the Rust toolchain to run the binary
-FROM debian:bullseye-slim
-WORKDIR app
-COPY --from=builder /app/target/release/berlin-web .
-COPY --from=builder /app/data/ ./data/
-ENTRYPOINT ["./berlin-web"]
+COPY app /usr/src/app
+COPY api.py poetry.lock pyproject.toml /usr/src/
+
+RUN poetry install --no-dev
+
+EXPOSE 5000
+
+ENV FLASK_APP=api.py
+
+ENTRYPOINT flask run --host 0.0.0.0
+

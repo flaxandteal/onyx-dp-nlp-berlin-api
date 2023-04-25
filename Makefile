@@ -1,21 +1,25 @@
-SHELL=bash
-MAIN=build
+.PHONY: build run lint test
 
-BUILD=build
+build:
+	poetry run ./scripts/build.sh
 
-.PHONY: all
-all: build
+lint: lint-python
+	yarn lint
 
-.PHONY: wheels
-wheels:
-	@mkdir -p $(BUILD)/wheels
-	docker build -t berlin_py_build -f Dockerfile.wheels .
-	docker run --platform "linux/amd64" --rm --entrypoint maturin -v $(shell pwd)/$(BUILD)/wheels:/app/build/target/wheels berlin_py_build build
+lint-python:
+	poetry run ./scripts/run_lint_python.sh
 
-.PHONY: build
-build: Dockerfile
-	docker build -t berlin_rs .
+test:
+	poetry run ./scripts/run_tests_unit.sh
 
-.PHONY: run
-run: build
-	docker run -ti --rm berlin_rs
+format: format-python
+	yarn format
+
+format-python:
+	poetry run isort .
+	poetry run black .
+
+
+run:
+	poetry run ./scripts/run_app.sh
+
