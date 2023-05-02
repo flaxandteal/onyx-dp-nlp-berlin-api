@@ -1,5 +1,5 @@
 #!/bin/bash -eux
 
-pushd dp-nlp-category-api
+pushd dp-nlp-berlin-api
   make test
 popd
