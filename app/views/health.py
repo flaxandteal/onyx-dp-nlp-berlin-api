@@ -1,11 +1,12 @@
-from flask import Blueprint, Response
+from flask import Blueprint
+
+from app.healthcheck import Healthcheck, OK
 from app.logger import configure_logging, setup_logger
-from app.healthcheck import *
 
 configure_logging()
 logger = setup_logger(severity=3)
 
-health_check = Healthcheck(status=OK, version='0.1.0', checks=[])
+health_check = Healthcheck(status=OK, version="0.1.0", checks=[])
 
 health_blueprint = Blueprint("health", __name__)
 

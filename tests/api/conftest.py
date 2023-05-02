@@ -1,8 +1,10 @@
-import pytest
-from unittest.mock import patch
-from api import create_app
 from dataclasses import dataclass
-import app.store
+from unittest.mock import patch
+
+import pytest
+
+from api import create_app
+
 
 def fake_berlin_load(location):
     @dataclass
@@ -19,15 +21,19 @@ def fake_berlin_load(location):
     assert location == "data"
     return FakeBerlinDbProxy()
 
+
 @pytest.fixture()
 def app():
     with patch("app.store.load", fake_berlin_load):
         app = create_app()
-        app.config.update({
-            "TESTING": True,
-        })
+        app.config.update(
+            {
+                "TESTING": True,
+            }
+        )
 
         yield app
+
 
 @pytest.fixture()
 def test_client(app):
