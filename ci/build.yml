@@ -1,0 +1,22 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: python
+    tag: 3.9
+
+inputs:
+  - name: dp-nlp-berlin-api
+
+outputs:
+  - name: build
+
+caches:
+  - path: dp-nlp-berlin-api/.poetry/
+  - path: dp-nlp-berlin-api/.venv/
+  
+run:
+  path: dp-nlp-berlin-api/ci/scripts/build.sh
