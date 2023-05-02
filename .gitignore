@@ -3,5 +3,4 @@
 .DS_Store
 flamegraph.svg
 target/
-/data
 __pycache__
