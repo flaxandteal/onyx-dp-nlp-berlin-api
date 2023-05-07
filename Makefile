@@ -13,6 +13,8 @@ audit: deps ## Makes sure dep are installed and audits code for vulnerable depen
 	pip install safety
 	safety check
 
+build: deps
+	docker build -t berlin_api .
 build-bin: deps ## Builds a binary file 
 	poetry run ./scripts/build.sh
 
