@@ -75,6 +75,22 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "certifi"
+version = "2023.5.7"
+description = "Python package for providing Mozilla's CA Bundle."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
+name = "charset-normalizer"
+version = "3.1.0"
+description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
+category = "main"
+optional = false
+python-versions = ">=3.7.0"
+
+[[package]]
 name = "click"
 version = "8.1.3"
 description = "Composable command line interface toolkit"
@@ -160,6 +176,14 @@ Werkzeug = ">=2.3.3"
 [package.extras]
 async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
+
+[[package]]
+name = "idna"
+version = "3.4"
+description = "Internationalized Domain Names in Applications (IDNA)"
+category = "main"
+optional = false
+python-versions = ">=3.5"
 
 [[package]]
 name = "iniconfig"
@@ -431,6 +455,24 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 six = ">=1.5"
 
 [[package]]
+name = "requests"
+version = "2.30.0"
+description = "Python HTTP for Humans."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+certifi = ">=2017.4.17"
+charset-normalizer = ">=2,<4"
+idna = ">=2.5,<4"
+urllib3 = ">=1.21.1,<3"
+
+[package.extras]
+socks = ["PySocks (>=1.5.6,!=1.5.7)"]
+use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
+
+[[package]]
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -495,6 +537,20 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "urllib3"
+version = "2.0.2"
+description = "HTTP library with thread-safe connection pooling, file post, and more."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+brotli = ["brotli (>=1.0.9)", "brotlicffi (>=0.8.0)"]
+secure = ["certifi", "cryptography (>=1.9)", "idna (>=2.0.0)", "pyopenssl (>=17.1.0)", "urllib3-secure-extra"]
+socks = ["pysocks (>=1.5.6,!=1.5.7,<2.0)"]
+zstd = ["zstandard (>=0.18.0)"]
+
+[[package]]
 name = "werkzeug"
 version = "2.3.3"
 description = "The comprehensive WSGI web application library."
@@ -519,7 +575,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "6bad21fd8a6fff7265ab7d6bf7bbc0c8dd25042c7c180ac4e224b219aec6c257"
+content-hash = "3f44776b6deaf0bd5a51a18dde7d3ec8525f366b5581e21f790d0ef5208561b8"
 
 [metadata.files]
 astroid = []
@@ -528,6 +584,8 @@ attrs = []
 berlin = []
 black = []
 blinker = []
+certifi = []
+charset-normalizer = []
 click = []
 colorama = []
 coverage = []
@@ -535,6 +593,7 @@ dill = []
 execnet = []
 flake8 = []
 flask = []
+idna = []
 iniconfig = []
 isort = []
 itsdangerous = []
@@ -558,6 +617,7 @@ pytest-forked = []
 pytest-sugar = []
 pytest-xdist = []
 python-dateutil = []
+requests = []
 six = []
 structlog = []
 termcolor = []
@@ -565,5 +625,6 @@ toml = []
 tomli = []
 tomlkit = []
 typing-extensions = []
+urllib3 = []
 werkzeug = []
 wrapt = []
