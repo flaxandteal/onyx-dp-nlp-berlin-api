@@ -38,7 +38,7 @@ dev = [
 [tool.black]
 exclude = "tests/"
 target_version = ['py38']
-ignore = "C0116", "C0114"]
+ignore = "C0116,C0114"
 
 [tool.flake8]
 ignore = "C0116,C0114"
