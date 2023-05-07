@@ -36,7 +36,13 @@ dev = [
 ]
 
 [tool.black]
+exclude = "tests/"
 target_version = ['py38']
+ignore = "C0116", "C0114"]
+
+[tool.flake8]
+ignore = "C0116,C0114"
+
 
 [tool.poetry]
 name = "dp-nlp-berlin-api"
@@ -45,7 +51,7 @@ description = "API for location matching"
 authors = ["ONSDigital"]
 
 packages = [
-    { include = "dp_nlp_berlin_api", from = "app" },
+    { include = "app" },
 ]
 
 
