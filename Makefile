@@ -34,6 +34,10 @@ run: deps ## Start the api locally on port 3001. endpoints: /health, /berlin/sea
 test: deps ## Runs all available tests and generates a coverage report located in htmlcov
 	poetry run ./scripts/run_tests_unit.sh
 
+.PHONY: test-component
+test-component: deps ## Makes sure dep are installed and runs component tests
+	poetry run pytest tests/api
+
 format: deps ## Formats your code automatically.
 	poetry run isort .
 	poetry run black .

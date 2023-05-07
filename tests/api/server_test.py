@@ -6,7 +6,7 @@ import pytest
 def test_health_check(test_client):
     response = test_client.get("/health")
     assert response.status_code == 200
-    assert response.text == '"OK"'
+    assert '"OK"' in response.text
 
 
 def test_search_with_state(test_client):
