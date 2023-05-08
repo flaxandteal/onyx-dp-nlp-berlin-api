@@ -61,7 +61,7 @@ structlog = "^21.5.0"
 python-dateutil = "^2.8.2"
 requests = "^2.30.0"
 ruff = "^0.0.265"
-safety = {version = "^2.3.5", optional = true}
+safety = "^2.3.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
