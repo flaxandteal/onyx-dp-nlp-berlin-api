@@ -10,7 +10,7 @@ EXISTS_FLASK := $(shell command -v uvicorn 2> /dev/null)
 .PHONY: build run lint test help audit deps
 
 audit: deps ## Makes sure dep are installed and audits code for vulnerable dependencies
-	safety check -i 51457 
+	poetry run safety check -i 51457 
 
 build: deps
 	docker build -t berlin_api .
