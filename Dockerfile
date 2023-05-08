@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y git \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pip install "poetry==1.1.12"
+RUN pip install urllib3==1.26.15
 RUN poetry config virtualenvs.create false
 
 RUN mkdir -p /usr/src/
