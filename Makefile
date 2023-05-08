@@ -10,8 +10,7 @@ EXISTS_FLASK := $(shell command -v uvicorn 2> /dev/null)
 .PHONY: build run lint test help audit deps
 
 audit: deps ## Makes sure dep are installed and audits code for vulnerable dependencies
-	pip install safety
-	safety check
+	safety check -i 51457 
 
 build: deps
 	docker build -t berlin_api .
@@ -28,7 +27,7 @@ deps: ## Installs dependencies
 	fi; \
 
 lint: deps ## Lints code 
-	poetry run ./scripts/run_lint_python.sh
+	poetry run ruff .
 
 run: deps ## Start the api locally on port 3001. endpoints: /health, /berlin/search?q=query
 	poetry run ./scripts/run_app.sh

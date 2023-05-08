@@ -38,10 +38,10 @@ dev = [
 [tool.black]
 exclude = "tests/"
 target_version = ['py38']
-ignore = "C0116,C0114"
 
-[tool.flake8]
-ignore = "C0116,C0114"
+[tool.ruff]
+# Ignore E501 - some lines can't be smalled than 90
+ignore = ["E501"]
 
 
 [tool.poetry]
@@ -54,13 +54,14 @@ packages = [
     { include = "app" },
 ]
 
-
 [tool.poetry.dependencies]
 python = "^3.10"
 Flask = "^2.0.2"
 structlog = "^21.5.0"
 python-dateutil = "^2.8.2"
 requests = "^2.30.0"
+ruff = "^0.0.265"
+safety = {version = "^2.3.5", optional = true}
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
