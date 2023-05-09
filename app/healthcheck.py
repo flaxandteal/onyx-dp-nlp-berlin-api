@@ -1,14 +1,16 @@
-from datetime import datetime
-import subprocess
-import time
+# import subprocess
 import sys
+import time
+from datetime import datetime
+
 # import os
 
 # Define the check statuses
-OK = 'OK'
-WARNING = 'WARNING'
-ERROR = 'ERROR'
+OK = "OK"
+WARNING = "WARNING"
+ERROR = "ERROR"
 # commit_sha = os.environ['COMMIT_SHA']
+
 
 class Healthcheck:
     def __init__(self, status, version, checks):
@@ -28,31 +30,30 @@ class Healthcheck:
 
     def to_json(self):
         response = {
-            'status': self.status,
-            'version': self.version,
-            'uptime': self.get_uptime(self.uptime),
-            'start_time': self.start_time,
-            'checks': self.checks
+            "status": self.status,
+            "version": self.version,
+            "uptime": self.get_uptime(self.uptime),
+            "start_time": self.start_time,
+            "checks": self.checks,
         }
 
         return response
-    
+
     # def get_last_commit(self):
     #     last_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('utf-8').strip()
     #     return last_commit
-    
+
     def get_uptime(self, start_time):
         uptime = time.time()
         intervals = (
-            ('w', 604800000),
-            ('d', 86400000),
-            ('h', 3600000),
-            ('m', 60000),
-            ('s', 1000),
-            ('ms', 1),
-
+            ("w", 604800000),
+            ("d", 86400000),
+            ("h", 3600000),
+            ("m", 60000),
+            ("s", 1000),
+            ("ms", 1),
         )
-        uptime = round((uptime - start_time)*1000)
+        uptime = round((uptime - start_time) * 1000)
 
         parts = []
         for name, count in intervals:
@@ -61,5 +62,4 @@ class Healthcheck:
                 uptime -= value * count
                 parts.append(f"{value} {name}")
 
-        return ', '.join(parts)
-    
+        return ", ".join(parts)

@@ -4,3 +4,7 @@
 flamegraph.svg
 target/
 __pycache__
+.coverage
+.application-version
+/htmlcov
+.pytest_cache

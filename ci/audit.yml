@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: python
+    tag: 3.10.11
+
+params:
+  POETRY_CACHE_DIR: .poetry/
+
+inputs:
+  - name: dp-nlp-berlin-api
+
+caches:
+  - path: dp-nlp-berlin-api/.poetry/
+  - path: dp-nlp-berlin-api/.venv/
+
+run:
+  path: dp-nlp-berlin-api/ci/scripts/audit.sh

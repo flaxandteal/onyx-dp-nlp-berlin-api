@@ -1,0 +1,25 @@
+---
+
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: concourse/oci-build-task
+
+inputs:
+- name: dp-nlp-berlin-api
+
+outputs:
+- name: image
+
+caches:
+  - path: dp-nlp-berlin-api/.poetry/
+  - path: dp-nlp-berlin-api/.venv/
+  
+params:
+  CONTEXT: dp-nlp-berlin-api/
+  DOCKERFILE: dp-nlp-berlin-api/Dockerfile
+
+run:
+  path: build

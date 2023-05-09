@@ -1,9 +1,6 @@
-import json
-import datetime
-import time
-
-from flask import Blueprint, Response, jsonify, request
+from flask import Blueprint, jsonify, request
 from requests import RequestException
+
 from app.logger import configure_logging, setup_logger
 from app.store import get_db
 
@@ -14,11 +11,15 @@ db = get_db()
 
 berlin_blueprint = Blueprint("berlin", __name__)
 
+
 @berlin_blueprint.route("/berlin/fetch-schema", methods=["GET"])
 def berlin_fetch_schema():
     logger.info("Fetch schema")
     return jsonify({}), 200
+
+
 10
+
 
 @berlin_blueprint.route("/berlin/code/:key", methods=["GET"])
 def berlin_code():
@@ -30,7 +31,7 @@ def berlin_code():
 def berlin_search_schema():
     logger.info("Search schema")
     return jsonify({}), 200
- 
+
 
 @berlin_blueprint.route("/berlin/search", methods=["GET"])
 def berlin_search():
@@ -47,7 +48,7 @@ def berlin_search():
                     "key": loc.key,
                     "encoding": loc.encoding,
                     "id": loc.id,
-                    "words": loc.words
+                    "words": loc.words,
                 }
                 for loc in result
             ]
