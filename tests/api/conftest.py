@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 import json
 from unittest.mock import patch
-import app.store
 
 import pytest
 
