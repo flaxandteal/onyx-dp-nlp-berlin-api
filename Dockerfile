@@ -16,7 +16,7 @@ COPY api.py poetry.lock pyproject.toml /usr/src/
 
 RUN poetry install --no-dev
 
-EXPOSE 3001
+EXPOSE 28900
 
 ENV FLASK_APP=api.py
 

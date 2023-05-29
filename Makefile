@@ -29,7 +29,7 @@ deps: ## Installs dependencies
 lint: deps ## Lints code 
 	poetry run ruff .
 
-run: deps ## Start the api locally on port 3001. endpoints: /health, /berlin/search?q=query
+run: deps ## Start the api locally on port 28900.
 	poetry run ./scripts/run_app.sh
 
 test: deps ## Runs all available tests and generates a coverage report located in htmlcov

@@ -12,7 +12,7 @@ db = get_db()
 berlin_blueprint = Blueprint("berlin", __name__)
 
 
-@berlin_blueprint.route("/berlin/fetch-schema", methods=["GET"])
+@berlin_blueprint.route("/v1/berlin/fetch-schema", methods=["GET"])
 def berlin_fetch_schema():
     logger.info("Fetch schema")
     return jsonify({}), 200
@@ -21,19 +21,19 @@ def berlin_fetch_schema():
 10
 
 
-@berlin_blueprint.route("/berlin/code/:key", methods=["GET"])
+@berlin_blueprint.route("/v1/berlin/code/:key", methods=["GET"])
 def berlin_code():
     logger.info("Retrieve code")
     return jsonify({}), 200
 
 
-@berlin_blueprint.route("/berlin/search-schema", methods=["GET"])
+@berlin_blueprint.route("/v1/berlin/search-schema", methods=["GET"])
 def berlin_search_schema():
     logger.info("Search schema")
     return jsonify({}), 200
 
 
-@berlin_blueprint.route("/berlin/search", methods=["GET"])
+@berlin_blueprint.route("/v1/berlin/search", methods=["GET"])
 def berlin_search():
     q = request.args.get("q")
     state = request.args.get("state")

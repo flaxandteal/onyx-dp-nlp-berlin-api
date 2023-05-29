@@ -44,11 +44,11 @@ make test
 
 ## Usage
 
-This will make an API available on port 5001. It serves simple requests of the
+This will make an API available on port 28900. It serves simple requests of the
 form:
 
 ```shell
-curl 'http://localhost:5001/berlin/search?q=house+prices+in+londo&state=gb' | jq
+curl 'http://localhost:28900/v1/berlin/search?q=house+prices+in+londo&state=gb' | jq
 ```
 
 replacing `localhost` with the local endpoint (`jq` used for formatting).
