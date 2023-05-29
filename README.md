@@ -37,7 +37,8 @@ To test the apps functionality:
 make run
 ```
 
-Then, in another terminal window/tab, navigate to a checked out copy of eq-survey-runner:
+Then, in another terminal window/tab, navigate to a checked out copy of ONS/eq-survey-runner:
+
 ```
 make test
 ```
