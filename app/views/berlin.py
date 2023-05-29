@@ -41,7 +41,7 @@ def berlin_search():
     lev_distance = request.args.get("lev_distance", 2, type=int)
 
     try:
-        result = db.query(q, state, limit or 10, lev_distance or 2)
+        result = db.query(q, state=state, limit=limit or 10, lev_distance=lev_distance or 2)
         locations = {
             "matches": [
                 {
