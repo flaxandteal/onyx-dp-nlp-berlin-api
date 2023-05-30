@@ -7,7 +7,9 @@ RESET  := $(shell tput -Txterm sgr0)
 EXISTS_POETRY := $(shell command -v poetry 2> /dev/null)
 EXISTS_FLASK := $(shell command -v uvicorn 2> /dev/null)
 
-.PHONY: build run lint test help audit deps
+.PHONY: build run lint test help audit deps all
+
+all: audit lint format
 
 audit: deps ## Makes sure dep are installed and audits code for vulnerable dependencies
 	poetry run safety check -i 51457 

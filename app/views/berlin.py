@@ -11,6 +11,7 @@ db = get_db()
 
 berlin_blueprint = Blueprint("berlin", __name__)
 
+
 @berlin_blueprint.route("/v1/berlin/search", methods=["GET"])
 def berlin_search():
     q = request.args.get("q")
@@ -19,7 +20,9 @@ def berlin_search():
     lev_distance = request.args.get("lev_distance", 2, type=int)
 
     try:
-        result = db.query(q, state=state, limit=limit or 10, lev_distance=lev_distance or 2)
+        result = db.query(
+            q, state=state, limit=limit or 10, lev_distance=lev_distance or 2
+        )
         locations = {
             "matches": [
                 {
