@@ -14,7 +14,7 @@ export START_TIME=$(shell date +%s)
 export GIT_COMMIT=$(shell git rev-parse HEAD)
 export VERSION ?= 0.1.0
 
-.PHONY: build run lint test help audit deps all
+.PHONY: build run lint test help audit deps all test-component
 
 all: audit lint format
 
@@ -23,8 +23,6 @@ audit: deps ## Makes sure dep are installed and audits code for vulnerable depen
 
 build: deps
 	docker build -t berlin_api .
-build-bin: deps ## Builds a binary file 
-	poetry run ./scripts/build.sh
 
 deps: ## Installs dependencies
 	@if [ -z "$(EXISTS_FLASK)" ]; then \
@@ -44,7 +42,6 @@ run: deps ## Start the api locally on port 28900.
 test: deps ## Runs all available tests and generates a coverage report located in htmlcov
 	poetry run ./scripts/run_tests_unit.sh
 
-.PHONY: test-component
 test-component: deps ## Makes sure dep are installed and runs component tests
 	poetry run pytest tests/api
 

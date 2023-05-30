@@ -16,3 +16,4 @@ config.ini
 flamegraph.svg
 target/
 .coverage
+run_lint.sh
