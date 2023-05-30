@@ -17,7 +17,7 @@ def berlin_search():
     q = request.args.get("q")
     state = request.args.get("state")
     limit = request.args.get("limit", type=int)
-    lev_distance = request.args.get("lev_distance", 2, type=int)
+    lev_distance = request.args.get("lev_distance", type=int)
 
     try:
         result = db.query(
