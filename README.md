@@ -7,6 +7,13 @@ ISO-3166-2 subdivisions.
 
 It is recommended that you use [Pyenv](https://github.com/pyenv/pyenv) to manage your Python installations.
 
+### Configuration
+
+| Environment variable         | Default               | Description
+| ---------------------------- | ---------             | -----------
+| FLASK_APP                    | `api.py`              | The data files with the areas      
+| PORT                         | :28900                | The port to bind to
+
 ### Install Poetry
 ```
 curl -sSL https://install.python-poetry.org | python3 - 
@@ -58,55 +65,24 @@ This will return results of the form:
 
 ```json
 {
-  "time": "32.46ms",
-  "query": {
-    "raw": "house prices in londo",
-    "normalized": "house prices in londo",
-    "stop_words": [
-      "in"
-    ],
-    "codes": [],
-    "exact_matches": [
-      "house"
-    ],
-    "not_exact_matches": [
-      "house prices",
-      "prices in",
-      "prices",
-      "in londo",
-      "londo"
-    ],
-    "state_filter": "gb",
-    "limit": 1,
-    "levenshtein_distance": 2
-  },
-  "results": [
+  "matches": [
     {
-      "loc": {
-        "encoding": "UN-LOCODE",
-        "id": "gb:lon",
-        "key": "UN-LOCODE-gb:lon",
-        "names": [
-          "london"
-        ],
-        "codes": [
-          "lon"
-        ],
-        "state": [
-          "gb",
-          "united kingdom of great britain and northern ireland"
-        ],
-        "subdiv": [
-          "lnd",
-          "london, city of"
-        ]
-      },
-      "score": 1346,
-      "offset": {
-        "start": 16,
-        "end": 21
-      }
+      "encoding": "UN-LOCODE",
+      "id": "ca:lod",
+      "key": "UN-LOCODE-ca:lod",
+      "words": [
+        "london"
+      ]
+    },
+    {
+      "encoding": "UN-LOCODE",
+      "id": "us:ldn",
+      "key": "UN-LOCODE-us:ldn",
+      "words": [
+        "london"
+      ]
     }
+    ...
   ]
 }
 ```

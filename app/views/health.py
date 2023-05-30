@@ -6,7 +6,7 @@ from app.logger import configure_logging, setup_logger
 configure_logging()
 logger = setup_logger()
 
-health_check = Healthcheck(status=OK, version="0.1.0", checks=[])
+health_check = Healthcheck(status=OK, checks=[])
 
 health_blueprint = Blueprint("health", __name__)
 

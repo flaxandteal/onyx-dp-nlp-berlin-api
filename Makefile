@@ -7,6 +7,13 @@ RESET  := $(shell tput -Txterm sgr0)
 EXISTS_POETRY := $(shell command -v poetry 2> /dev/null)
 EXISTS_FLASK := $(shell command -v uvicorn 2> /dev/null)
 
+BERLIN_API_PORT ?= 28900
+FLASK_APP ?= api.py
+
+export START_TIME=$(shell date +%s)
+export GIT_COMMIT=$(shell git rev-parse HEAD)
+export VERSION ?= 0.1.0
+
 .PHONY: build run lint test help audit deps all
 
 all: audit lint format
@@ -32,7 +39,7 @@ lint: deps ## Lints code
 	poetry run ruff .
 
 run: deps ## Start the api locally on port 28900.
-	poetry run ./scripts/run_app.sh
+	FLASK_APP=${FLASK_APP} poetry run flask run --port ${BERLIN_API_PORT}
 
 test: deps ## Runs all available tests and generates a coverage report located in htmlcov
 	poetry run ./scripts/run_tests_unit.sh

@@ -1,4 +1,4 @@
-import subprocess
+from app.config import start_time, commit, version
 import sys
 import time
 from datetime import datetime
@@ -10,13 +10,18 @@ ERROR = "ERROR"
 
 
 class Healthcheck:
-    def __init__(self, status, version, checks):
-        start_time = datetime.now()
-        self.start_time = start_time.strftime("%Y-%m-%dT%H:%M:%S%z")
+    def __init__(self, status, checks):
+        formatted_start_time = datetime.fromtimestamp(int(start_time))
+
+        build_time = datetime.now()
+
+        self.start_time = formatted_start_time.strftime('%Y-%m-%dT%H:%M:%S%z')
+
         self.status = status
         self.version = {
             "version": version,
-            "git_commit": self.get_last_commit(),
+            "build_time": build_time,
+            "git_commit": commit,
             "language": "python",
             "language_version": sys.version,
         }
@@ -32,10 +37,6 @@ class Healthcheck:
         }
 
         return response
-
-    def get_last_commit(self):
-        last_commit = subprocess.check_output(["git", "rev-parse", "HEAD"])
-        return last_commit.decode("utf-8").strip()
 
     def get_uptime(self):
         uptime = time.time()
