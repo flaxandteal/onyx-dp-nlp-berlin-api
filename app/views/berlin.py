@@ -17,10 +17,6 @@ def berlin_fetch_schema():
     logger.info("Fetch schema")
     return jsonify({}), 200
 
-
-10
-
-
 @berlin_blueprint.route("/v1/berlin/code/:key", methods=["GET"])
 def berlin_code():
     logger.info("Retrieve code")

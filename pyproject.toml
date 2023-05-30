@@ -3,6 +3,7 @@ name = "dp-nlp-berlin-api"
 version = "0.0.1"
 authors = [
     {name = "Phil Weir", email = "phil.weir@flaxandteal.co.uk"},
+    {name = "Kamen Dimitrov", email = "kamen.Dimitrov@flaxandteal.co.uk"},
 ]
 description = "A Python/Rust microservice to identify locations and tag them with UN-LOCODEs"
 readme = "README.md"
@@ -40,7 +41,7 @@ exclude = "tests/"
 target_version = ['py38']
 
 [tool.ruff]
-# Ignore E501 - some lines can't be smalled than 90
+# Ignore E501 - some lines can't be smaller than 90
 ignore = ["E501"]
 
 
@@ -73,13 +74,6 @@ pytest-xdist = "^2.5.0"
 pytest-sugar = "^0.9.4"
 black = "^22.10.0"
 berlin = "^0.3.0"
-
-#[tool.setuptools.packages.find]
-#where = ["src"]
-#
-#[build-system]
-#requires = ["setuptools", "setuptools-scm"]
-#build-backend = "setuptools.build_meta"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
