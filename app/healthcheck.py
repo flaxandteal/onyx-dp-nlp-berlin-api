@@ -9,12 +9,12 @@ WARNING = 'WARNING'
 ERROR = 'ERROR'
 
 class Healthcheck:
-    # TO-DO: update healthcheck with image build time
-    def __init__(self, status, version, build_time, checks):
+    def __init__(self, status, version, checks):
+        start_time = datetime.datetime.now()
+        self.start_time = start_time.strftime('%Y-%m-%dT%H:%M:%S%z')
         self.status = status
         self.version = {
             "version": version,
-            "build_time": build_time,
             "git_commit": self.get_last_commit(),
             "language": "python",
             "language_version": sys.version,
@@ -35,12 +35,6 @@ class Healthcheck:
     def get_last_commit(self):
         last_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'])
         return last_commit.decode('utf-8').strip()
-    
-    def set_start_time(self, start_time):
-        start_time = datetime.datetime.now()
-        formatted_time = start_time.strftime('%Y-%m-%dT%H:%M:%S%z')
-        
-        self.start_time = formatted_time
     
     def get_uptime(self):
         uptime = time.time()

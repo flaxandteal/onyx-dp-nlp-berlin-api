@@ -14,9 +14,8 @@ def configure_logging():
     )
 
 
-def setup_logger(severity):
+def setup_logger():
     return structlog.get_logger(
         namespace="dp_nlp_berlin_api",
         created_at=datetime.utcnow().isoformat(),
-        severity=severity,
     )
