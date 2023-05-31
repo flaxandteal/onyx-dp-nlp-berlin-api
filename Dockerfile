@@ -11,6 +11,7 @@ RUN mkdir -p /usr/src/
 WORKDIR /usr/src/
 
 COPY app /usr/src/app
+COPY data /usr/src/data
 COPY api.py poetry.lock pyproject.toml /usr/src/
 
 RUN poetry install --no-dev
@@ -19,5 +20,5 @@ EXPOSE 28900
 
 ENV FLASK_APP=api.py
 
-ENTRYPOINT flask run --host 0.0.0.0
+ENTRYPOINT flask run --host 0.0.0.0 --port 28900
 

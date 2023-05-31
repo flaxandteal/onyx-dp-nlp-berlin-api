@@ -22,7 +22,7 @@ audit: deps ## Makes sure dep are installed and audits code for vulnerable depen
 	poetry run safety check -i 51457 
 
 build: deps
-	docker build -t berlin_api .
+	docker build --build-arg start_time="${START_TIME}" --build-arg commit="${GIT_COMMIT}" --build-arg version="${VERSION}" -t berlin_api .
 
 deps: ## Installs dependencies
 	@if [ -z "$(EXISTS_FLASK)" ]; then \
@@ -38,6 +38,9 @@ lint: deps ## Lints code
 
 run: deps ## Start the api locally on port 28900.
 	FLASK_APP=${FLASK_APP} poetry run flask run --port ${BERLIN_API_PORT}
+
+run-container: deps
+	docker run --env START_TIME='${START_TIME}' -e GIT_COMMIT="${GIT_COMMIT}" -e VERSION="${VERSION}" -ti berlin_api
 
 test: deps ## Runs all available tests and generates a coverage report located in htmlcov
 	poetry run ./scripts/run_tests_unit.sh
