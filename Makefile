@@ -15,7 +15,7 @@ export START_TIME=$(shell date +%s)
 export BERLIN_API_GIT_COMMIT=$(shell git rev-parse HEAD)
 export BERLIN_API_VERSION ?= 0.1.0
 
-.PHONY: build run lint test help audit deps all test-component
+.PHONY: build build-bin run lint test help audit deps all test-component
 
 all: audit lint format
 
@@ -24,6 +24,9 @@ audit: deps ## Makes sure dep are installed and audits code for vulnerable depen
 
 build: deps
 	docker build --build-arg start_time="${START_TIME}" --build-arg commit="${GIT_COMMIT}" --build-arg version="${VERSION}" -t berlin_api .
+
+build-bin: deps
+	poetry build
 
 deps: ## Installs dependencies
 	@if [ -z "$(EXISTS_FLASK)" ]; then \
