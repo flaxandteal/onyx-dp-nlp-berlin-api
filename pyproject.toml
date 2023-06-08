@@ -64,6 +64,7 @@ requests = "^2.30.0"
 berlin = "^0.3.0"
 ruff = "^0.0.265"
 safety = "^2.3.5"
+dynaconf = "^3.1.12"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

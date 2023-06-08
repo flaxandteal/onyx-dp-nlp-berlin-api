@@ -7,12 +7,13 @@ RESET  := $(shell tput -Txterm sgr0)
 EXISTS_POETRY := $(shell command -v poetry 2> /dev/null)
 EXISTS_FLASK := $(shell command -v uvicorn 2> /dev/null)
 
-BERLIN_API_PORT ?= 28900
-FLASK_APP ?= api.py
+export BERLIN_API_PORT ?= 28900
+export BERLIN_API_HOST ?= 0.0.0.0
+export FLASK_APP ?= app/main.py
 
 export START_TIME=$(shell date +%s)
-export GIT_COMMIT=$(shell git rev-parse HEAD)
-export VERSION ?= 0.1.0
+export BERLIN_API_GIT_COMMIT=$(shell git rev-parse HEAD)
+export BERLIN_API_VERSION ?= 0.1.0
 
 .PHONY: build run lint test help audit deps all test-component
 

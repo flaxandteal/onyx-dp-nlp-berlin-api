@@ -1,5 +1,6 @@
 # Environmental files
 .env
+*.example
 
 # Caches
 __pycache__
@@ -11,6 +12,9 @@ __pycache__
 
 # Configs
 config.ini
+
+# Generated files
+/dist
 
 # Others
 flamegraph.svg
