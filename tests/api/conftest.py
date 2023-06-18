@@ -1,3 +1,4 @@
+import importlib
 import json
 from dataclasses import dataclass
 from unittest.mock import patch
@@ -41,7 +42,8 @@ def load_test_codes():
 
 def real_berlin_load(location):
     import berlin
-    return berlin.load_from_json([load_test_codes()], load_test_code_list())
+    load = berlin.load_from_json([load_test_codes()], load_test_code_list())
+    return load
 
 def fake_berlin_load(location):
     @dataclass
@@ -63,6 +65,10 @@ def fake_berlin_load(location):
 def app_with_berlin():
     with patch("app.store.load", real_berlin_load):
         from api import create_app
+        from app.store import get_db
+        import app.views.berlin
+        importlib.reload(app.views.berlin)
+        get_db.cache_clear()
 
         app = create_app()
         app.config.update(
@@ -77,6 +83,10 @@ def app_with_berlin():
 def app():
     with patch("app.store.load", fake_berlin_load):
         from api import create_app
+        from app.store import get_db
+        import app.views.berlin
+        importlib.reload(app.views.berlin)
+        get_db.cache_clear()
 
         app = create_app()
         app.config.update(
