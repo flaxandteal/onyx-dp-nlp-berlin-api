@@ -45,6 +45,17 @@ def load_test_codes():
                         "continent": "EU",
                     },
                 },
+                "BG:02": {
+                    "<c>": "ISO-3166-2",
+                    "s": "<bln|ISO-3166-2#BG:02|\"Burgas\">",
+                    "i": "BG:02",
+                    "d": {
+                        "name": "Burgas",
+                        "supercode": "BG",
+                        "subcode": "02",
+                        "level": "region"
+                    }
+                },
                 "BG:BLO": {
                     "<c>": "UN-LOCODE",
                     "s": '<bln|UN-LOCODE#BG:BLO|"Lyuliakovo">',
@@ -79,9 +90,27 @@ def fake_berlin_load(location):
         id: str
         words: list[str]
 
+        def get_names(self):
+            return ["manc"]
+
+        def get_codes(self):
+            return ["mnc"]
+
+        def get_subdiv(self):
+            return "mac"
+
+        def get_state(self):
+            return "gb"
+
     class FakeBerlinDbProxy:
         def query(self, query, state, limit, lev_distance):
             return [FakeBerlinResult("A", "B", "X", ["Manchester"])]
+
+        def get_subdiv_name(self, state, subdiv):
+            return f"{state}-{subdiv}-name"
+
+        def get_state_name(self, state):
+            return f"{state}-nom"
 
     assert location == "data/"
     return FakeBerlinDbProxy()

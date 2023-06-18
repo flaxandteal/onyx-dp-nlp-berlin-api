@@ -11,12 +11,12 @@ It is recommended that you use [Pyenv](https://github.com/pyenv/pyenv) to manage
 
 | Environment variable         | Default               | Description
 | ---------------------------- | ---------             | -----------
-| FLASK_APP                    | `app/main.py`         | The data files with the areas      
+| FLASK_APP                    | `app/main.py`         | Location of the app
 | BERLIN_API_PORT              |  28900                | The port to bind to
 | BERLIN_API_HOST              | `0.0.0.0`             | The host to bind to
 | BERLIN_API_DATA_LOCATION     | "data/"               | Data location
 | BERLIN_API_LOGGING_NAMESPACE | "dp_nlp_berlin_api"   | Logging namespace
-| BERLIN_API_GIT_COMMIT        | "000000"              | Git commit 
+| BERLIN_API_GIT_COMMIT        | "000000"              | Git commit
 | BERLIN_API_VERSION           | "0.1.0"               | version
 
 ### Install Poetry

@@ -9,6 +9,56 @@ info:
 schemes:
   - http
 paths:
+  /berlin/code/{code}:
+    get:
+      summary: retrieve an individual code by its identifier
+      description: Returns information about a code, if it exists
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/location_codes"
+          examples:
+            application/json:
+              london_canada:
+                encoding: "UN-LOCODE"
+                id: "ca:lod"
+                key: "UN-LOCODE-ca:lod"
+                words:
+                  - "london"
+                names:
+                  - "london"
+                codes:
+                  - "lod"
+                state:
+                  - "ca"
+                  - "canada"
+                subdiv:
+                  - "on"
+                  - "ontario"
+              london_us:
+                encoding:	"UN-LOCODE"
+                id:	"us:ldn"
+                key:	"UN-LOCODE-us:ldn"
+                words:	
+                  -	"london"
+                names:
+                  - "london"
+                codes:
+                  - "ldn"
+                state:
+                  - "us"
+                  - "united states of america"
+                subdiv:
+                  - "oh"
+                  - "ohio"
+        404:
+          $ref: '#/responses/NotFound'
+        500:
+          $ref: '#/responses/InternalError'
+
   /berlin/search:
     get:
       summary: identifies locations and tagging them with UN-LOCODEs and ISO-3166-2 subdivisions 
@@ -45,10 +95,10 @@ paths:
             application/json:
               matches:
                 - encoding: "UN-LOCODE"
-                  id: "ca:lod"
-                  key: "UN-LOCODE-ca:lod"
-                  words:
-                    - "london"
+                id: "ca:lod"
+                key: "UN-LOCODE-ca:lod"
+                words:
+                  - "london"
                 - encoding:	"UN-LOCODE"
                   id:	"us:ldn"
                   key:	"UN-LOCODE-us:ldn"
@@ -76,6 +126,8 @@ paths:
           $ref: "#/responses/InternalError"
 
 responses:
+  NotFound:
+    description: "Resource not found"
   InternalError:
     description: "Failed to process the request due to an internal error"
 
@@ -94,6 +146,30 @@ definitions:
       key:
         type: "string"
       words:
+        type: "array"
+        items: 
+          type: "string"
+      names:
+        type: "array"
+        items: 
+          type: "string"
+      codes:
+        type: "array"
+        items: 
+          type: "string"
+      subdiv:
+        type: "array"
+        items: 
+          type: "string"
+      state:
+        type: "array"
+        items: 
+          type: "string"
+      names:
+        type: "array"
+        items: 
+          type: "string"
+      codes:
         type: "array"
         items: 
           type: "string"
