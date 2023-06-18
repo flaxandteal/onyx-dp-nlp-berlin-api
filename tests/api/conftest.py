@@ -5,45 +5,71 @@ from unittest.mock import patch
 
 import pytest
 
+from app.main import create_app
+from app.store import get_db
+
 
 def load_test_code_list():
-    return [{
-        "change": "",
-        "country": "BG",
-        "subcode": "BLO",
-        "name": "Lyuliakovo",
-        "name_wo_diacritics": "Lyuliakovo",
-        "subdivision_code": "02",
-        "status": "RL",
-        "function": "-----6--",
-        "date": "0901",
-        "iata_code": "",
-        "coordinates": "4283N 02701E",
-    }]
+    return [
+        {
+            "change": "",
+            "country": "BG",
+            "subcode": "BLO",
+            "name": "Lyuliakovo",
+            "name_wo_diacritics": "Lyuliakovo",
+            "subdivision_code": "02",
+            "status": "RL",
+            "function": "-----6--",
+            "date": "0901",
+            "iata_code": "",
+            "coordinates": "4283N 02701E",
+        }
+    ]
+
 
 def load_test_codes():
-    return [json.dumps({
-        "BG": {
-            "<c>": "ISO-3166-1",
-            "s": "<bln|ISO-3166-1#BG|\"Bulgaria\">",
-            "i": "BG",
-            "d": {
-                "name": "Bulgaria",
-                "short": "Bulgaria",
-                "alpha2": "BG",
-                "alpha3": "BGR",
-                "official_en": "Bulgaria",
-                "official_fr": "Bulgarie",
-                "continent": "EU"
+    return [
+        json.dumps(
+            {
+                "BG": {
+                    "<c>": "ISO-3166-1",
+                    "s": '<bln|ISO-3166-1#BG|"Bulgaria">',
+                    "i": "BG",
+                    "d": {
+                        "name": "Bulgaria",
+                        "short": "Bulgaria",
+                        "alpha2": "BG",
+                        "alpha3": "BGR",
+                        "official_en": "Bulgaria",
+                        "official_fr": "Bulgarie",
+                        "continent": "EU",
+                    },
+                },
+                "BG:BLO": {
+                    "<c>": "UN-LOCODE",
+                    "s": '<bln|UN-LOCODE#BG:BLO|"Lyuliakovo">',
+                    "i": "BG:BLO",
+                    "d": {
+                        "name": "Lyuliakovo",
+                        "supercode": "BG",
+                        "subcode": "BLO",
+                        "subdivision_name": "Burgas",
+                        "subdivision_code": "02",
+                        "function_code": "-----6--",
+                    },
+                },
             }
-        }
-    })]
+        )
+    ]
 
 
 def real_berlin_load(location):
     import berlin
-    load = berlin.load_from_json([load_test_codes()], load_test_code_list())
-    return load
+
+    db = berlin.load_from_json([load_test_codes()], load_test_code_list())
+    db.retrieve("UN-LOCODE-bg:blo")
+    return db
+
 
 def fake_berlin_load(location):
     @dataclass
@@ -57,16 +83,15 @@ def fake_berlin_load(location):
         def query(self, query, state, limit, lev_distance):
             return [FakeBerlinResult("A", "B", "X", ["Manchester"])]
 
-    assert location == "data"
+    assert location == "data/"
     return FakeBerlinDbProxy()
 
 
 @pytest.fixture()
 def app_with_berlin():
     with patch("app.store.load", real_berlin_load):
-        from api import create_app
-        from app.store import get_db
         import app.views.berlin
+
         importlib.reload(app.views.berlin)
         get_db.cache_clear()
 
@@ -79,12 +104,12 @@ def app_with_berlin():
 
         yield app
 
+
 @pytest.fixture()
 def app():
     with patch("app.store.load", fake_berlin_load):
-        from api import create_app
-        from app.store import get_db
         import app.views.berlin
+
         importlib.reload(app.views.berlin)
         get_db.cache_clear()
 
@@ -101,6 +126,7 @@ def app():
 @pytest.fixture()
 def test_client_with_berlin(app_with_berlin):
     yield app_with_berlin.test_client()
+
 
 @pytest.fixture()
 def test_client(app):
