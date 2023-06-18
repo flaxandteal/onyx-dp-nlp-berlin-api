@@ -12,9 +12,8 @@ db = get_db()
 berlin_blueprint = Blueprint("berlin", __name__)
 
 
-@berlin_blueprint.route("/v1/berlin/code/:key", methods=["GET"])
+@berlin_blueprint.route("/v1/berlin/code/<key>", methods=["GET"])
 def berlin_code(key):
-    logger.debug("Retrieve code")
     try:
         loc = db.retrieve(key)
     except KeyError:
