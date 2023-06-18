@@ -1,5 +1,6 @@
+import flask
 from datetime import datetime
-from app.config import NAMESPACE
+from app.settings import NAMESPACE
 import structlog
 
 

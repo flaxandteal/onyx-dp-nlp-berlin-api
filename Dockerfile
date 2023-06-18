@@ -18,7 +18,7 @@ RUN poetry install --no-dev
 
 EXPOSE 28900
 
-ENV FLASK_APP=api.py
+ENV FLASK_APP=app/main.py
 
 ENTRYPOINT flask run --host 0.0.0.0 --port 28900
 

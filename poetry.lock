@@ -49,67 +49,17 @@ tests-no-zope = ["cloudpickle", "hypothesis", "mypy (>=1.1.1)", "pympler", "pyte
 
 [[package]]
 name = "berlin"
-version = "0.3.8"
+version = "0.3.9"
 description = "Identify locations and tag them with UN-LOCODEs and ISO-3166-2 subdivisions."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "berlin-0.3.8-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:6190363165a48bb97339778100cb2e9edadf2ec881741a8da4b7ad2be1c39303"},
-    {file = "berlin-0.3.8-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:7b36b841a90c52e1ae06e45b6c91d6e96b3f521060e82bbd07f50201e4147572"},
-    {file = "berlin-0.3.8-cp310-cp310-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:d29cba941a964093112fa566908db9ec1857970b981cff3050a5ac23d2e39089"},
-    {file = "berlin-0.3.8-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:95a56c8879de1f8b290e57829c35659688b2492ef97756088e958e1c7bdcfe05"},
-    {file = "berlin-0.3.8-cp310-cp310-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:92c0507ced5d99af66bf4f63610138977d20c1ac413ecd1819d2e144e5040aac"},
-    {file = "berlin-0.3.8-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:961148f24393ec3b08eb07ac927b7a5ebb343e507d78014d834dd8e5fe90a37f"},
-    {file = "berlin-0.3.8-cp310-cp310-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:6477444932045001c74d13832d5ff440cbe02c43911cf06d5492a2946b9fc686"},
-    {file = "berlin-0.3.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6617ae0f6d08e66a284305ac19cce0934f0c01c5400b356901126b924a269309"},
-    {file = "berlin-0.3.8-cp310-none-win32.whl", hash = "sha256:abbf9bbbe9a642678e2245af84c880f342ae57cb4222b054f2c9a5e5eacb4c60"},
-    {file = "berlin-0.3.8-cp310-none-win_amd64.whl", hash = "sha256:ed1d20e089b09e7f117e741ab7581c53663429a6c6db4de8225fb6f3958e5d4c"},
-    {file = "berlin-0.3.8-cp311-cp311-macosx_10_7_x86_64.whl", hash = "sha256:d4fcc8f06bd0031f4d05493af19978722787250866af750586776e73f9e5e4d4"},
-    {file = "berlin-0.3.8-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:1a661a2af1ef5db336957f93c446cfb1edc6518d7b1007bf86f0575b3f0a1ee3"},
-    {file = "berlin-0.3.8-cp311-cp311-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:9bab0f63262bf592948b25f91b58146861de23b7502adab6feb9588cdf1d7c24"},
-    {file = "berlin-0.3.8-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:237ecfee9f51d6473ab990f3b59b10c98b46e90a731885420c6c21c992469b46"},
-    {file = "berlin-0.3.8-cp311-cp311-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:a834987c956b47e7798926b2029a73e52f9b1ea251f24348a98168c91043daac"},
-    {file = "berlin-0.3.8-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:553cf86a6eb4f00cfa01d2c36ee16ed53c0942cc6c1ab788e44c06c5e48018d0"},
-    {file = "berlin-0.3.8-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:d6d0510a6cdf5ed6abf5a7b2f11ba85f6bd6c38cefcd38b7f3fc1515951f32cb"},
-    {file = "berlin-0.3.8-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1c24dc24573e452ec3feecd254ba4c361d5b76fab060db1aac6473ab188eecc1"},
-    {file = "berlin-0.3.8-cp311-none-win32.whl", hash = "sha256:3665f639f7829a62fe17c62c4d4a8ce10a6a2bc2ffcb6a1e80936f04fdbba7e7"},
-    {file = "berlin-0.3.8-cp311-none-win_amd64.whl", hash = "sha256:a81a5463b9df112af03204fee2c0d8a21651fcb6d301681bfaa41220545fde70"},
-    {file = "berlin-0.3.8-cp312-cp312-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:407bfea91a25b9d05ebbb325d0fcd2968cfd54d118cdc6f7826e6ce4bfebcad7"},
-    {file = "berlin-0.3.8-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:87a8344687b0c9afcbfb1a0abdb9222776548b8b8814ed8aea1e8b513cc1b45e"},
-    {file = "berlin-0.3.8-cp312-cp312-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:679a145540bc78d6327ab8ceb927c6609a0232dd26775d46dfb020e59a1c7b17"},
-    {file = "berlin-0.3.8-cp312-cp312-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:18d54f128a9af0724dd59db53e49e65a56af422854673c91242a2e1fda430375"},
-    {file = "berlin-0.3.8-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9ddcc82d7fa3ee03c94a14901dfd6629fc1b2fc9ecc780ebdb5c746e5eff33b3"},
-    {file = "berlin-0.3.8-cp38-cp38-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:4a8b0faabc2041b1404ba82128a374d86ba7e83237801b72869714fb571f87bc"},
-    {file = "berlin-0.3.8-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0b43c7aa92afa9913b0eb2a06918ff1d6a4e160ab2ace0cab8dec522737336cb"},
-    {file = "berlin-0.3.8-cp38-cp38-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:6f40d8378c3a411d31308a5a87655410ca47b142963e5af8b32f25641ed38147"},
-    {file = "berlin-0.3.8-cp38-cp38-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:65efca3240cacdcf9c77c26b453b0e10790cc243d9482066422b617a0e205999"},
-    {file = "berlin-0.3.8-cp38-cp38-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:07091875f2551dfa44bdb888b344a04e68b41cfcef5f9b0376c854b0feae992a"},
-    {file = "berlin-0.3.8-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:447bf58183bed3c139fe5f848fc3ca3ded150b4fa23de94da51b2da3acde59ae"},
-    {file = "berlin-0.3.8-cp38-none-win32.whl", hash = "sha256:e6e7b410f6a4535e65b37c1f1f7976bc1949e6783989af9c6f6a23915cc95f0d"},
-    {file = "berlin-0.3.8-cp38-none-win_amd64.whl", hash = "sha256:53c524f4e8bab30631de06c7071022d55438a20fedd0d0038e7e787e76d279a1"},
-    {file = "berlin-0.3.8-cp39-cp39-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:1fe3cacc099588f8c5d185dbe16b8e1567d85b69f2242b2034cf65a0b4932732"},
-    {file = "berlin-0.3.8-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:2578fee1049ab8840ff96d54c0550c1e7d0408e41a4ca9b7ed637875bbdfc608"},
-    {file = "berlin-0.3.8-cp39-cp39-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:7f416b7763fadd5d33b41ab349dc2c0b49f18e5f620677b649396ee035793ebe"},
-    {file = "berlin-0.3.8-cp39-cp39-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:ab4095fddd1e87e9db4b6aca3090d43f8eae613da86848bbd799e4910a7c7d93"},
-    {file = "berlin-0.3.8-cp39-cp39-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:0232355ad982cd81b202b5dfda3414a76949b557500aba11fca5c722d2879bc5"},
-    {file = "berlin-0.3.8-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:2d6f6af5988662bba7ae2b64f172178f07464fc0513a95fec00fb2fa8e84734b"},
-    {file = "berlin-0.3.8-cp39-none-win32.whl", hash = "sha256:b19b91b4bdac578653f1eaf5c4bc804c49c1ac35e8fef3d61098de823e03576f"},
-    {file = "berlin-0.3.8-cp39-none-win_amd64.whl", hash = "sha256:051949372037b115bf544481643fe80f83c1fb9959cc823b54bb968ca16aa28f"},
-    {file = "berlin-0.3.8-pp310-pypy310_pp73-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:b7aeb4ff0b41bdc5e100909ee258284e7f67e7f18cc6409585d4265343266810"},
-    {file = "berlin-0.3.8-pp310-pypy310_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:36c47edbbeed383d90243b06c165b182dfa706963feff349c41be45d40d04279"},
-    {file = "berlin-0.3.8-pp38-pypy38_pp73-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:b1b36564aa5114679a0a05792035f6e4040c98c00a831ea08138600921c46dad"},
-    {file = "berlin-0.3.8-pp38-pypy38_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d615094bcf8fd1b8488942ad7b2b4a73d67f014fa95fc58f6ee9bcb8caf3466a"},
-    {file = "berlin-0.3.8-pp38-pypy38_pp73-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:428deab33b7cc5f8733d49a1123b2627e0d8b5fb0ef6e20049c64b6690aa7734"},
-    {file = "berlin-0.3.8-pp38-pypy38_pp73-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:78b35de4b090dfe46ed4fee3a214260841280ac0bc51817421f7f29a7a72f303"},
-    {file = "berlin-0.3.8-pp38-pypy38_pp73-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:cfd743620d98be2c741b018e041917244eb67ce95898e2d94b77e85e7cf4f8bc"},
-    {file = "berlin-0.3.8-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:aa2a3348788c665f96848f5f3120c2c7af46077def72fe16cbe9da11b260e7a5"},
-    {file = "berlin-0.3.8-pp39-pypy39_pp73-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:4314259b6dabfc74ce163f8ed1001a67a80e16034828354eae79207d86ac4825"},
-    {file = "berlin-0.3.8-pp39-pypy39_pp73-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e1ea6b12b74fe739e7b4407fd2d819a08174b106373f1c81620b1af7141d514b"},
-    {file = "berlin-0.3.8-pp39-pypy39_pp73-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:1724cd5aebc0b1dbc1e350ca94c5a5e30106111dfb59eb81bf492f6a53ebd2a1"},
-    {file = "berlin-0.3.8-pp39-pypy39_pp73-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:648f9f4a08ef4aec1addde68e26287da02d228749e53a5f9923901dba6b1d82d"},
-    {file = "berlin-0.3.8-pp39-pypy39_pp73-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:1d3c2a536181daabd44a782c9b1a169ed8e6b71f121e28213278c8518fba4fe1"},
-    {file = "berlin-0.3.8-pp39-pypy39_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e8deaa6a0c1cc9237c5c2569a06395727905db3c037c6299dd88ff593c1930c6"},
-    {file = "berlin-0.3.8.tar.gz", hash = "sha256:b4b5615229ac6dfb751dcc9efca9d086bf3f02baefa6da0a01c991e77b0e3541"},
+    {file = "berlin-0.3.9-cp310-cp310-macosx_10_7_x86_64.whl", hash = "sha256:9eb8a9a5a1e5ba7801a0147be079945fb4e444898153e47efc9c33412a3536df"},
+    {file = "berlin-0.3.9-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:ea83092f33d32ab8240fa45b87649c5b28d028e7fd9400b872b59c60288bfe24"},
+    {file = "berlin-0.3.9-cp310-cp310-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:c8d8f13eb79c2a11185ffce6bcd19933d5456169ee619f81e3de872a668e0894"},
+    {file = "berlin-0.3.9-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:9d1d932f21108589fb98efc996f0867b4c7e33ea922e13912b51b6e0fdbb15dc"},
+    {file = "berlin-0.3.9-cp310-cp310-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:638c6d01471022e9b9880c7f8f61f8b7c88c056da6aa9483bf8e3d7a9fee5026"},
+    {file = "berlin-0.3.9-cp310-cp310-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:7e706924420e39bfd6f381a825db4a8d3ee3d428ff6671e534c63f5edd5f750c"},
 ]
 
 [[package]]
@@ -689,13 +639,13 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "3.5.3"
+version = "3.6.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-3.5.3-py3-none-any.whl", hash = "sha256:0ade98a4895e87dc51d47151f7d2ec290365a585151d97b4d8d6312ed6132fed"},
-    {file = "platformdirs-3.5.3.tar.gz", hash = "sha256:e48fabd87db8f3a7df7150a4a5ea22c546ee8bc39bc2473244730d4b56d2cc4e"},
+    {file = "platformdirs-3.6.0-py3-none-any.whl", hash = "sha256:ffa199e3fbab8365778c4a10e1fbf1b9cd50707de826eb304b50e57ec0cc8d38"},
+    {file = "platformdirs-3.6.0.tar.gz", hash = "sha256:57e28820ca8094678b807ff529196506d7a21e17156cb1cddb3e74cebce54640"},
 ]
 
 [package.extras]
@@ -1273,4 +1223,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b38586a596ad5cf5691f106c7dbfd659cb4a64a901e56439e219ded2afb0fdb0"
+content-hash = "c091816a7a5355be7a28a727112b1fef49286d206e51359bb69d384bd96f440a"
