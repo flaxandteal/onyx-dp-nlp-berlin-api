@@ -3,6 +3,7 @@ from requests import RequestException
 
 from app.logger import configure_logging, setup_logger
 from app.store import get_db
+from app.models import LocationModel
 
 configure_logging()
 logger = setup_logger()
@@ -10,6 +11,20 @@ logger = setup_logger()
 db = get_db()
 
 berlin_blueprint = Blueprint("berlin", __name__)
+
+
+@berlin_blueprint.route("/v1/berlin/code/<key>", methods=["GET"])
+def berlin_code(key):
+    try:
+        loc = db.retrieve(key)
+    except KeyError:
+        return jsonify({
+            "key": key,
+            "error": "Not found"
+        }), 404
+
+    location = LocationModel.from_location(loc, db)
+    return jsonify(location.to_json()), 200
 
 
 @berlin_blueprint.route("/v1/berlin/search", methods=["GET"])
@@ -25,12 +40,7 @@ def berlin_search():
         )
         locations = {
             "matches": [
-                {
-                    "key": loc.key,
-                    "encoding": loc.encoding,
-                    "id": loc.id,
-                    "words": loc.words,
-                }
+                LocationModel.from_location(loc, db).to_json()
                 for loc in result
             ]
         }

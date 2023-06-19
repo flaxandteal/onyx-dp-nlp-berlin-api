@@ -1,12 +1,14 @@
 from flask import Blueprint
+from datetime import datetime
 
 from app.healthcheck import OK, Healthcheck
 from app.logger import configure_logging, setup_logger
 
 configure_logging()
 logger = setup_logger()
+start_time = datetime.now()
 
-health_check = Healthcheck(status=OK, checks=[])
+health_check = Healthcheck(status=OK, checks=[], start_time=start_time)
 
 health_blueprint = Blueprint("health", __name__)
 

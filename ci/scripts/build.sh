@@ -11,4 +11,5 @@ pushd dp-nlp-category-api
   mv dist/ $cwd/build
   mv data/ $cwd/build
   cp Dockerfile.concourse $cwd/build
+  cp .env.default $cwd/build
 popd
