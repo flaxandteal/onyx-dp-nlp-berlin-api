@@ -15,17 +15,17 @@ export BERLIN_API_GIT_COMMIT=$(shell git rev-parse HEAD)
 export BERLIN_API_VERSION ?= 0.1.0
 export BERLIN_API_BUILD_TIME=$(shell date +%s)
 
-.PHONY: build build-bin run lint test help audit deps all test-component
+.PHONY: all audit build build-bin deps help lint run test-component unit
 
 all: audit lint format
 
-audit: deps ## Makes sure dep are installed and audits code for vulnerable dependencies
+audit: ## audits code for vulnerable dependencies
 	poetry run safety check -i 51457 
 
-build: deps
+build:
 	docker build --build-arg build_time="${BUILD_TIME}" --build-arg commit="${GIT_COMMIT}" --build-arg version="${VERSION}" -t berlin_api .
 
-build-bin: deps
+build-bin:
 	poetry build
 
 deps: ## Installs dependencies
@@ -36,25 +36,27 @@ deps: ## Installs dependencies
 	fi; \
 		poetry install --quiet || poetry install; \
 	fi; \
-
-lint: deps ## Lints code 
-	poetry run ruff .
-
-run: deps ## Start the api locally on port 28900.
-	FLASK_APP=${FLASK_APP} poetry run flask run --port ${BERLIN_API_PORT}
-
-run-container: deps
-	docker run --env BUILD_TIME='${BUILD_TIME}' -e GIT_COMMIT="${GIT_COMMIT}" -e VERSION="${VERSION}" -ti berlin_api
-
-test: deps ## Runs all available tests and generates a coverage report located in htmlcov
-	poetry run ./scripts/run_tests_unit.sh
-
-test-component: deps ## Makes sure dep are installed and runs component tests
-	poetry run pytest tests/api
-
-format: deps ## Formats your code automatically.
+	
+format: ## Formats your code automatically.
 	poetry run isort .
 	poetry run black .
+
+lint: ## Lints code 
+	poetry run ruff .
+
+run: ## Start the api locally on port 28900.
+	FLASK_APP=${FLASK_APP} poetry run flask run --port ${BERLIN_API_PORT}
+
+run-container:
+	docker run --env BUILD_TIME='${BUILD_TIME}' -e GIT_COMMIT="${GIT_COMMIT}" -e VERSION="${VERSION}" -ti berlin_api
+
+
+test-component: ## runs component tests
+	poetry run pytest -v tests/api
+
+
+unit: ## runs component tests
+	poetry run pytest -v tests/unit
 
 help: ## Show this help.
 	@echo ''

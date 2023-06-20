@@ -1,5 +1,4 @@
 import sys
-import time
 from datetime import datetime, timedelta
 from app import __version__ as VERSION
 from app.settings import BUILD_TIME, GIT_COMMIT
