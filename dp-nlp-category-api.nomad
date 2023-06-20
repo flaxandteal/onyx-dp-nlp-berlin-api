@@ -1,4 +1,4 @@
-job "dp-nlp-category-api" {
+job "dp-nlp-berlin-api" {
   datacenters = ["eu-west-2"]
   region      = "eu"
   type        = "service"
