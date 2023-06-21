@@ -19,13 +19,13 @@ export BERLIN_API_BUILD_TIME=$(shell date +%s)
 
 all: audit lint format
 
-audit: ## audits code for vulnerable dependencies
+audit: deps ## audits code for vulnerable dependencies
 	poetry run safety check -i 51457 
 
 build:
 	docker build --build-arg build_time="${BUILD_TIME}" --build-arg commit="${GIT_COMMIT}" --build-arg version="${VERSION}" -t berlin_api .
 
-build-bin:
+build-bin: deps
 	poetry build
 
 deps: ## Installs dependencies
@@ -41,7 +41,7 @@ format: ## Formats your code automatically.
 	poetry run isort .
 	poetry run black .
 
-lint: ## Lints code 
+lint: deps ## Lints code 
 	poetry run ruff .
 
 run: ## Start the api locally on port 28900.
@@ -50,13 +50,13 @@ run: ## Start the api locally on port 28900.
 run-container:
 	docker run --env BUILD_TIME='${BUILD_TIME}' -e GIT_COMMIT="${GIT_COMMIT}" -e VERSION="${VERSION}" -ti berlin_api
 
-test: ## runs all tests
+test: deps ## runs all tests
 	poetry run pytest -v tests/
-test-component: ## runs component tests
+test-component: deps ## runs component tests
 	poetry run pytest -v tests/api
 
 
-test-unit: ## runs unit tests
+test-unit: deps ## runs unit tests
 	poetry run pytest -v tests/unit
 
 help: ## Show this help.
