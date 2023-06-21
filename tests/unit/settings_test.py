@@ -1,5 +1,3 @@
-import time
-from dynaconf import Dynaconf
 from unittest.mock import patch
 import pytest
 
