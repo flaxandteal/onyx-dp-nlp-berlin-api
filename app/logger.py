@@ -1,6 +1,6 @@
 import flask
 from datetime import datetime
-from app.settings import NAMESPACE
+from app.settings import settings
 import structlog
 
 
@@ -17,6 +17,6 @@ def configure_logging():
 
 def setup_logger():
     return structlog.get_logger(
-        namespace=NAMESPACE,
+        namespace=settings.NAMESPACE,
         created_at=datetime.utcnow().isoformat(),
     )

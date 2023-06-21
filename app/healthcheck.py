@@ -1,7 +1,7 @@
 import sys
 from datetime import datetime, timedelta
 from app import __version__ as VERSION
-from app.settings import BUILD_TIME, GIT_COMMIT
+from app.settings import settings
 
 # Define the check statuses
 OK = "OK"
@@ -15,9 +15,9 @@ class Healthcheck:
     def __init__(self, status, checks, start_time: datetime):
         self.start_time = start_time
 
-        formatted_build_time = datetime.fromtimestamp(int(BUILD_TIME))
+        formatted_build_time = datetime.fromtimestamp(int(settings.BUILD_TIME))
         self.build_time = formatted_build_time.strftime('%Y-%m-%dT%H:%M:%S%z')
-        git_commit = GIT_COMMIT
+        git_commit = settings.GIT_COMMIT
 
         self.status = status
         self.version = {
