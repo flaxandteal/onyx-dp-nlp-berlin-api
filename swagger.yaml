@@ -15,6 +15,12 @@ paths:
       description: Returns information about a code, if it exists
       produces:
         - application/json
+      parameters:
+        - in: path
+          name: code
+          description: "The query string to search data by"
+          required: true
+          type: "string"
       responses:
         200:
           description: OK
@@ -22,38 +28,37 @@ paths:
             $ref: "#/definitions/location_codes"
           examples:
             application/json:
-              london_canada:
-                encoding: "UN-LOCODE"
-                id: "ca:lod"
-                key: "UN-LOCODE-ca:lod"
-                words:
-                  - "london"
-                names:
-                  - "london"
-                codes:
-                  - "lod"
-                state:
-                  - "ca"
-                  - "canada"
-                subdiv:
-                  - "on"
-                  - "ontario"
-              london_us:
-                encoding:	"UN-LOCODE"
-                id:	"us:ldn"
-                key:	"UN-LOCODE-us:ldn"
-                words:	
-                  -	"london"
-                names:
-                  - "london"
-                codes:
-                  - "ldn"
-                state:
-                  - "us"
-                  - "united states of america"
-                subdiv:
-                  - "oh"
-                  - "ohio"
+              matches:
+                - encoding: "UN-LOCODE"
+                  id: "ca:lod"
+                  key: "UN-LOCODE-ca:lod"
+                  words:
+                    - "london"
+                  names:
+                    - "london"
+                  codes:
+                    - "lod"
+                  state:
+                    - "ca"
+                    - "canada"
+                  subdiv:
+                    - "on"
+                    - "ontario"
+                - encoding:	"UN-LOCODE"
+                  id:	"us:ldn"
+                  key:	"UN-LOCODE-us:ldn"
+                  words:	
+                    -	"london"
+                  names:
+                    - "london"
+                  codes:
+                    - "ldn"
+                  state:
+                    - "us"
+                    - "united states of america"
+                  subdiv:
+                    - "oh"
+                    - "ohio"
         404:
           $ref: '#/responses/NotFound'
         500:
@@ -95,10 +100,10 @@ paths:
             application/json:
               matches:
                 - encoding: "UN-LOCODE"
-                id: "ca:lod"
-                key: "UN-LOCODE-ca:lod"
-                words:
-                  - "london"
+                  id: "ca:lod"
+                  key: "UN-LOCODE-ca:lod"
+                  words:
+                    - "london"
                 - encoding:	"UN-LOCODE"
                   id:	"us:ldn"
                   key:	"UN-LOCODE-us:ldn"
@@ -146,14 +151,6 @@ definitions:
       key:
         type: "string"
       words:
-        type: "array"
-        items: 
-          type: "string"
-      names:
-        type: "array"
-        items: 
-          type: "string"
-      codes:
         type: "array"
         items: 
           type: "string"
