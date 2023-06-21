@@ -1,5 +1,5 @@
 #!/bin/bash -eux
 
 pushd dp-nlp-berlin-api
-  make unit
+  make test-unit
 popd

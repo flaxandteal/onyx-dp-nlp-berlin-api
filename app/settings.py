@@ -11,12 +11,9 @@ settings = Dynaconf(
 
 settings.reload()
 
-HOST = settings.get("HOST")
-PORT = settings.get("PORT")
-
-NAMESPACE = settings.get("LOGGING_NAMESPACE")
-DATA_LOCATION = settings.get("DATA_LOCATION")
-
-# BERLIN_API_START_TIME name of the start_time variable
-BUILD_TIME = settings.get("BUILD_TIME", current_time)
-GIT_COMMIT = settings.get("GIT_COMMIT")
+settings.HOST = settings.get("HOST")
+settings.PORT = settings.get("PORT")
+settings.NAMESPACE = settings.get("LOGGING_NAMESPACE")
+settings.DATA_LOCATION = settings.get("DATA_LOCATION")
+settings.BUILD_TIME = settings.get("BUILD_TIME", current_time)
+settings.GIT_COMMIT = settings.get("GIT_COMMIT")
