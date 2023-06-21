@@ -1,4 +1,3 @@
-from berlin import Location
 
 
 def test_health_check(test_client):

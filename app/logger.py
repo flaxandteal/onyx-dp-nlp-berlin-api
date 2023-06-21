@@ -1,4 +1,3 @@
-import flask
 from datetime import datetime
 from app.settings import settings
 import structlog
