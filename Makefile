@@ -15,7 +15,7 @@ export BERLIN_API_GIT_COMMIT=$(shell git rev-parse HEAD)
 export BERLIN_API_VERSION ?= 0.1.0
 export BERLIN_API_BUILD_TIME=$(shell date +%s)
 
-.PHONY: all audit build build-bin deps help lint run test-component unit
+.PHONY: all audit build build-bin deps help lint run test test-component test-unit
 
 all: audit lint format
 
@@ -50,12 +50,13 @@ run: ## Start the api locally on port 28900.
 run-container:
 	docker run --env BUILD_TIME='${BUILD_TIME}' -e GIT_COMMIT="${GIT_COMMIT}" -e VERSION="${VERSION}" -ti berlin_api
 
-
+test: ## runs all tests
+	poetry run pytest -v tests/
 test-component: ## runs component tests
 	poetry run pytest -v tests/api
 
 
-unit: ## runs component tests
+test-unit: ## runs unit tests
 	poetry run pytest -v tests/unit
 
 help: ## Show this help.
