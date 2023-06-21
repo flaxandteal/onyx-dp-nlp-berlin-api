@@ -2,7 +2,7 @@ from flask import Flask
 
 from app.views.berlin import berlin_blueprint
 from app.views.health import health_blueprint
-from app.settings import HOST, PORT
+from app.settings import settings
 
 
 def create_app():
@@ -15,6 +15,6 @@ def create_app():
 if __name__ == "__main__":
     application = create_app()
     application.run(
-        port=PORT,
-        host=HOST
+        port=settings.PORT,
+        host=settings.HOST
     )

@@ -5,7 +5,7 @@ from unittest.mock import patch
 import pytest
 
 from app import __version__ as VERSION
-from app.settings import BUILD_TIME, GIT_COMMIT
+from app.settings import settings
 from app.healthcheck import Healthcheck, OK
 
 start_time = datetime.now()
@@ -19,7 +19,7 @@ def healthcheck():
 
 @patch("app.healthcheck.datetime")
 def test_to_json(mock_datetime, healthcheck):
-    formatted_build_time = datetime.fromtimestamp(int(BUILD_TIME))
+    formatted_build_time = datetime.fromtimestamp(int(settings.BUILD_TIME))
     build_time = formatted_build_time.strftime('%Y-%m-%dT%H:%M:%S%z')
 
     expected_json = {
@@ -27,7 +27,7 @@ def test_to_json(mock_datetime, healthcheck):
         "version": {
             "version": VERSION,
             "build_time": build_time,
-            "git_commit": GIT_COMMIT,
+            "git_commit": settings.GIT_COMMIT,
             "language": "python",
             "language_version": sys.version,
         },
