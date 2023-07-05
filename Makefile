@@ -23,7 +23,7 @@ audit: deps ## audits code for vulnerable dependencies
 	poetry run safety check -i 51457 
 
 build:
-	docker build --build-arg build_time="${BUILD_TIME}" --build-arg commit="${GIT_COMMIT}" --build-arg version="${VERSION}" -t berlin_api .
+	docker build --build-arg build_time="${BERLIN_API_BUILD_TIME}" --build-arg commit="${BERLIN_API_GIT_COMMIT}" --build-arg version="${BERLIN_API_VERSION}" -t berlin_api .
 
 build-bin: deps
 	poetry build
@@ -48,7 +48,7 @@ run: ## Start the api locally on port 28900.
 	FLASK_APP=${FLASK_APP} poetry run flask run --port ${BERLIN_API_PORT}
 
 run-container:
-	docker run --env BUILD_TIME='${BUILD_TIME}' -e GIT_COMMIT="${GIT_COMMIT}" -e VERSION="${VERSION}" -ti berlin_api
+	docker run --env BERLIN_API_BUILD_TIME='${BERLIN_API_BUILD_TIME}' -e BERLIN_API_BUILD_TIME="${BERLIN_API_BUILD_TIME}" -e BERLIN_API_VERSION="${BERLIN_API_VERSION}" -ti berlin_api
 
 test: deps ## runs all tests
 	poetry run pytest -v tests/
