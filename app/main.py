@@ -28,6 +28,5 @@ def create_app():
 if __name__ == "__main__":
     application = create_app()
     application.run(
-        port=settings.PORT,
-        host=settings.HOST
+        port=settings.PORT
     )
