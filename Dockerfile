@@ -12,7 +12,7 @@ WORKDIR /usr/src/
 
 COPY app /usr/src/app
 COPY data /usr/src/data
-COPY .env.local poetry.lock pyproject.toml /usr/src/
+COPY .env.default poetry.lock pyproject.toml /usr/src/
 
 RUN poetry install --no-dev
 

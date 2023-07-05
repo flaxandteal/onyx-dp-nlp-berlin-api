@@ -6,7 +6,7 @@ current_time = int(time.time())
 settings = Dynaconf(
     envvar_prefix="BERLIN_API",
     load_dotenv=True,
-    dotenv_path=".env.local",
+    dotenv_path=".env.default",
 )
 
 settings.reload()
