@@ -7,7 +7,7 @@ def test_health_check(test_client):
 
 
 def test_code_with_berlin(test_client_with_berlin):
-    response = test_client_with_berlin.get("/v1/berlin/code/UN-LOCODE-bg:blo")
+    response = test_client_with_berlin.get("/berlin/code/UN-LOCODE-bg:blo")
     assert response.status_code == 200
     assert isinstance(response.json, dict)
     assert response.json == {
@@ -25,7 +25,7 @@ def test_code_with_berlin(test_client_with_berlin):
 
 def test_search_with_state_with_berlin(test_client_with_berlin):
     response = test_client_with_berlin.get(
-        "/v1/berlin/search?q=Lyuliakovo&state=BG&limit=2"
+        "/berlin/search?q=Lyuliakovo&state=BG&limit=2"
     )
     assert response.status_code == 200
     assert isinstance(response.json, dict)
@@ -45,7 +45,7 @@ def test_search_with_state_with_berlin(test_client_with_berlin):
 
 
 def test_search_with_state(test_client):
-    response = test_client.get("/v1/berlin/search?q=Manch&state=GB&limit=2")
+    response = test_client.get("/berlin/search?q=Manch&state=GB&limit=2")
     assert response.status_code == 200
     assert isinstance(response.json, dict)
     assert response.json == {

@@ -13,7 +13,7 @@ db = get_db()
 berlin_blueprint = Blueprint("berlin", __name__)
 
 
-@berlin_blueprint.route("/v1/berlin/code/<key>", methods=["GET"])
+@berlin_blueprint.route("/berlin/code/<key>", methods=["GET"])
 def berlin_code(key):
     try:
         loc = db.retrieve(key)
@@ -27,7 +27,7 @@ def berlin_code(key):
     return jsonify(location.to_json()), 200
 
 
-@berlin_blueprint.route("/v1/berlin/search", methods=["GET"])
+@berlin_blueprint.route("/berlin/search", methods=["GET"])
 def berlin_search():
     q = request.args.get("q")
     state = request.args.get("state")
