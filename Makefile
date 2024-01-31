@@ -45,7 +45,7 @@ lint: deps ## Lints code
 	poetry run ruff .
 
 run: deps ## Start the api locally on port 28900.
-	FLASK_APP=${FLASK_APP} poetry run gunicorn "app.main:create_app()" -b 0.0.0.0:${BERLIN_API_PORT}
+	@FLASK_APP=${FLASK_APP} poetry run gunicorn "app.main:create_app()" -b 0.0.0.0:${BERLIN_API_PORT} -c gunicorn_config.py
 
 run-container:
 	docker run --env BERLIN_API_BUILD_TIME='${BERLIN_API_BUILD_TIME}' -e BERLIN_API_BUILD_TIME="${BERLIN_API_BUILD_TIME}" -e BERLIN_API_VERSION="${BERLIN_API_VERSION}" -ti berlin_api
