@@ -17,8 +17,8 @@ def test_code_with_berlin(test_client_with_berlin):
         "names": ["lyuliakovo"],
         "words": ["lyuliakovo"],
         "codes": ["blo"],
-        "state": ["bg", "bulgaria"],
-        "subdiv": ["02", "burgas"],
+        "state": ["bg", "ISO-3166-1-bg"],
+        "subdiv": ["02", "ISO-3166-2-bg:02"],
     }
     print(response.json)
 
@@ -37,8 +37,8 @@ def test_search_with_state_with_berlin(test_client_with_berlin):
             "names": ["lyuliakovo"],
             "words": ["lyuliakovo"],
             "codes": ["blo"],
-            "state": ["bg", "bulgaria"],
-            "subdiv": ["02", "burgas"],
+            "state": ["bg", "ISO-3166-1-bg"],
+            "subdiv": ["02", "ISO-3166-2-bg:02"],
         }]
     }
     print(response.json)

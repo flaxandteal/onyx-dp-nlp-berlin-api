@@ -96,20 +96,20 @@ def fake_berlin_load(location):
         def get_codes(self):
             return ["mnc"]
 
-        def get_subdiv(self):
+        def get_subdiv_code(self):
             return "mac"
 
-        def get_state(self):
+        def get_state_code(self):
             return "gb"
 
     class FakeBerlinDbProxy:
         def query(self, query, state, limit, lev_distance):
             return [FakeBerlinResult("A", "B", "X", ["Manchester"])]
 
-        def get_subdiv_name(self, state, subdiv):
+        def get_subdiv_key(self, state, subdiv):
             return f"{state}-{subdiv}-name"
 
-        def get_state_name(self, state):
+        def get_state_key(self, state):
             return f"{state}-nom"
 
     assert location == "data/"
