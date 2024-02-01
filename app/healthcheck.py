@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime, timedelta
+
 from app import __version__ as VERSION
 from app.settings import settings
 
@@ -16,7 +17,7 @@ class Healthcheck:
         self.start_time = start_time
 
         formatted_build_time = datetime.fromtimestamp(int(settings.BUILD_TIME))
-        self.build_time = formatted_build_time.strftime('%Y-%m-%dT%H:%M:%S%z')
+        self.build_time = formatted_build_time.strftime("%Y-%m-%dT%H:%M:%S%z")
         git_commit = settings.GIT_COMMIT
 
         self.status = status
@@ -30,7 +31,7 @@ class Healthcheck:
         self.checks = checks
 
     def to_json(self):
-        start_time = self.start_time.strftime('%Y-%m-%dT%H:%M:%S%z')
+        start_time = self.start_time.strftime("%Y-%m-%dT%H:%M:%S%z")
         response = {
             "status": self.status,
             "version": self.version,

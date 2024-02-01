@@ -1,6 +1,8 @@
 from datetime import datetime
-from app.settings import settings
+
 import structlog
+
+from app.settings import settings
 
 
 def configure_logging():

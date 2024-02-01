@@ -1,6 +1,8 @@
-from dataclasses import dataclass, asdict
-from berlin import Location
+from dataclasses import asdict, dataclass
 from typing import Optional
+
+from berlin import Location
+
 
 @dataclass
 class LocationModel:
@@ -32,7 +34,7 @@ class LocationModel:
             names=loc.get_names(),
             codes=loc.get_codes(),
             subdiv=subdiv,
-            state=state
+            state=state,
         )
 
     def to_json(self):

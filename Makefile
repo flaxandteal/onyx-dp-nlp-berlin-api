@@ -22,21 +22,20 @@ all: audit lint format
 audit: deps ## audits code for vulnerable dependencies
 	poetry run safety check -i 51457 
 
-build:
+build: ## Builds a docker image berlin_api
 	docker build --build-arg build_time="${BERLIN_API_BUILD_TIME}" --build-arg commit="${BERLIN_API_GIT_COMMIT}" --build-arg version="${BERLIN_API_VERSION}" -t berlin_api .
 
-build-bin: deps
+build-bin: deps ## Builds a python wheel
 	poetry build
 
 deps: ## Installs dependencies
-	@if [ -z "$(EXISTS_FLASK)" ]; then \
-	if [ -z "$(EXISTS_POETRY)" ]; then \
+	if command -v poetry &> /dev/null; then \
+		poetry install; \
+	else \
 		pip -qq install poetry; \
 		poetry config virtualenvs.in-project true; \
-	fi; \
-		poetry install --quiet || poetry install; \
-	fi; \
-	
+	fi \
+
 format: ## Formats your code automatically.
 	poetry run isort .
 	poetry run black .
@@ -47,14 +46,14 @@ lint: deps ## Lints code
 run: deps ## Start the api locally on port 28900.
 	@FLASK_APP=${FLASK_APP} poetry run gunicorn "app.main:create_app()" -b 0.0.0.0:${BERLIN_API_PORT} -c gunicorn_config.py
 
-run-container:
+run-container: build ## Runs a container from the pre-build image 
 	docker run --env BERLIN_API_BUILD_TIME='${BERLIN_API_BUILD_TIME}' -e BERLIN_API_BUILD_TIME="${BERLIN_API_BUILD_TIME}" -e BERLIN_API_VERSION="${BERLIN_API_VERSION}" -ti berlin_api
 
 test: deps ## runs all tests
 	poetry run pytest -v tests/
+
 test-component: deps ## runs component tests
 	poetry run pytest -v tests/api
-
 
 test-unit: deps ## runs unit tests
 	poetry run pytest -v tests/unit

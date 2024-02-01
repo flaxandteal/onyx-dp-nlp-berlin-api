@@ -1,7 +1,7 @@
 import functools
+from typing import Optional
 
 from berlin import load
-from typing import Optional
 
 from app.settings import settings
 

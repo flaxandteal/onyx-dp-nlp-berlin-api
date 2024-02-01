@@ -5,8 +5,8 @@ from unittest.mock import patch
 import pytest
 
 from app import __version__ as VERSION
+from app.healthcheck import OK, Healthcheck
 from app.settings import settings
-from app.healthcheck import Healthcheck, OK
 
 start_time = datetime.now()
 

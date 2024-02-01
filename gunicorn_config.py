@@ -18,7 +18,7 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         self,
         message: str,
         extra: dict[str, str | int | float],
-        record: logging.LogRecord
+        record: logging.LogRecord,
     ) -> dict[str, str | int | float]:
         # Convert the log record to a JSON object.
         # See https://docs.gunicorn.org/en/stable/settings.html#access-log-format
@@ -30,6 +30,8 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         if record.args["q"]:
             url += f"?{record.args['q']}"
 
+        severity = 0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+
         return dict(
             remote_ip=record.args["h"],
             method=record.args["m"],
@@ -40,6 +42,7 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
             referer=record.args["f"],
             duration_in_ms=record.args["M"],
             pid=record.args["p"],
+            severity=severity,
         )
 
 
@@ -48,12 +51,14 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
         self,
         message: str,
         extra: dict[str, str | int | float],
-        record: logging.LogRecord
+        record: logging.LogRecord,
     ) -> dict[str, str | int | float]:
         payload: dict[str, str | int | float] = super().json_record(
             message, extra, record
         )
         payload["level"] = record.levelname
+        payload["severity"] = 0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+
         return payload
 
 
