@@ -17,7 +17,7 @@ logging.basicConfig(
 configure_logging()
 logger = setup_logger()
 
-logger.info("initial configuration", data=get_custom_settings())
+logger.info("initial configuration", data=get_custom_settings(), level="INFO", severity=0)
 
 
 def create_app():
