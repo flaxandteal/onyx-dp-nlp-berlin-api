@@ -29,7 +29,7 @@ build-bin: deps ## Builds a python wheel
 	poetry build
 
 deps: ## Installs dependencies
-	if command -v poetry 2> /dev/null; then \
+	if command -v poetry &> /dev/null; then \
 		poetry install; \
 	else \
 		pip -qq install poetry; \
