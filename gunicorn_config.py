@@ -37,6 +37,7 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
             namespace=settings.NAMESPACE,
             remote_ip=record.args["h"],
             method=record.args["m"],
+            event="making request",
             path=url,
             status=str(record.args["s"]),
             created_at=response_time.isoformat(),
