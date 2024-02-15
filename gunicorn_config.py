@@ -7,13 +7,6 @@ from app.settings import settings
 
 import json_log_formatter
 
-bind = "0.0.0.0:8000"
-
-# Log to stdout.
-accesslog = "-"
-errorlog = "-"
-
-
 class JsonRequestFormatter(json_log_formatter.JSONFormatter):
     def json_record(
         self,

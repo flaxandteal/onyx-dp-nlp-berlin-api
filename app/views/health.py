@@ -3,10 +3,8 @@ from datetime import datetime
 from flask import Blueprint
 
 from app.healthcheck import OK, Healthcheck
-from app.logger import configure_logging, setup_logger
+from app.logger import logger
 
-configure_logging()
-logger = setup_logger()
 start_time = datetime.now()
 
 health_check = Healthcheck(status=OK, checks=[], start_time=start_time)

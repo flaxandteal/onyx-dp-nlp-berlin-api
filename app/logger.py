@@ -1,6 +1,5 @@
-from datetime import datetime
-
 import structlog
+from datetime import datetime
 
 from app.settings import settings
 
@@ -22,3 +21,7 @@ def setup_logger():
         namespace=settings.NAMESPACE,
         created_at=datetime.utcnow().isoformat(),
     )
+
+
+configure_logging()
+logger = setup_logger()

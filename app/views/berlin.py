@@ -1,11 +1,8 @@
 from flask import Blueprint, jsonify, request
 
-from app.logger import configure_logging, setup_logger
+from app.logger import logger
 from app.models import LocationModel
 from app.store import get_db
-
-configure_logging()
-logger = setup_logger()
 
 db = get_db()
 
