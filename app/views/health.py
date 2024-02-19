@@ -3,7 +3,6 @@ from datetime import datetime
 from flask import Blueprint
 
 from app.healthcheck import OK, Healthcheck
-from app.logger import logger
 
 start_time = datetime.now()
 

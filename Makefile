@@ -29,15 +29,7 @@ build-bin: deps ## Builds a python wheel
 	poetry build
 
 deps: ## Installs dependencies
-	@if command -v poetry &> /dev/null; then \
-		echo "Installing poetry first then dependencies"; \
-		pip install poetry; \
-		poetry config virtualenvs.in-project true; \
-		poetry install; \
-	else \
-		echo "Installing dependencies"; \
-		poetry install; \
-	fi
+	bash ./ci/scripts/deps.sh
 
 fmt: ## Formats your code automatically.
 	poetry run isort .
