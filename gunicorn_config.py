@@ -3,9 +3,11 @@
 import datetime
 import logging
 import sys
-from app.settings import settings
 
 import json_log_formatter
+
+from app.settings import settings
+
 
 class JsonRequestFormatter(json_log_formatter.JSONFormatter):
     def json_record(
@@ -24,20 +26,24 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         if record.args["q"]:
             url += f"?{record.args['q']}"
 
-        severity = 0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+        severity = (
+            0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+        )
 
         return dict(
             namespace=settings.NAMESPACE,
-            remote_ip=record.args["h"],
-            method=record.args["m"],
             event="making request",
-            path=url,
-            status=str(record.args["s"]),
             created_at=response_time.isoformat(),
-            user_agent=record.args["a"],
-            referer=record.args["f"],
-            duration_in_ms=record.args["M"],
-            pid=record.args["p"],
+            data={
+                "remote_ip": record.args["h"],
+                "method": record.args["m"],
+                "path": url,
+                "status": str(record.args["s"]),
+                "user_agent": record.args["a"],
+                "referer": record.args["f"],
+                "duration_in_ms": record.args["M"],
+                "pid": record.args["p"],
+            },
             severity=severity,
         )
 
@@ -56,9 +62,11 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
         payload["created_at"] = payload["time"]
         payload["event"] = record.getMessage()
         payload["level"] = record.levelname
-        payload["severity"] = 0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
-        payload.pop('time', None)
-        payload.pop('message', None)
+        payload["severity"] = (
+            0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+        )
+        payload.pop("time", None)
+        payload.pop("message", None)
 
         return payload
 

@@ -14,7 +14,10 @@ logging.basicConfig(
     level=logging.INFO,
 )
 
-logger.info("initial configuration", data=get_custom_settings(), level="INFO", severity=0)
+logger.info(
+    "initial configuration", data=get_custom_settings(), level="INFO", severity=0
+)
+
 
 def create_app():
     application = Flask(__name__)

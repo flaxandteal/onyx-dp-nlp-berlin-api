@@ -1,5 +1,6 @@
 from flask import Blueprint, Response
 from logger import logger
+
 status_blueprint = Blueprint("status", __name__)
 
 
