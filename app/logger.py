@@ -1,5 +1,6 @@
-import structlog
 from datetime import datetime
+
+import structlog
 
 from app.settings import settings
 

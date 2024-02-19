@@ -15,9 +15,9 @@ export BERLIN_API_GIT_COMMIT=$(shell git rev-parse HEAD)
 export BERLIN_API_VERSION ?= 0.1.0
 export BERLIN_API_BUILD_TIME=$(shell date +%s)
 
-.PHONY: all audit build build-bin deps help lint run test test-component test-unit
+.PHONY: all audit build build-bin deps help lint run test test-component test-unit fmt
 
-all: audit lint format
+all: audit lint fmt
 
 audit: deps ## audits code for vulnerable dependencies
 	poetry run safety check -i 51457 
@@ -38,7 +38,7 @@ deps: ## Installs dependencies
 		poetry install; \
 	fi
 
-format: ## Formats your code automatically.
+fmt: ## Formats your code automatically.
 	poetry run isort .
 	poetry run black .
 

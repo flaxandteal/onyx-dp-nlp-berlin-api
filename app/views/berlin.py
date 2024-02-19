@@ -55,4 +55,7 @@ def berlin_search():
             level="ERROR",
             severity=1,
         )
-        return (jsonify({"error": "error querying the database"}), 500,)
+        return (
+            jsonify({"error": "error querying the database"}),
+            500,
+        )
