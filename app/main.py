@@ -3,21 +3,12 @@ import sys
 
 from flask import Flask
 
-from app.logger import logger
+from app.logger import setup_logging
 from app.settings import get_custom_settings, settings
 from app.views.berlin import berlin_blueprint
 from app.views.health import health_blueprint
 
-logging.basicConfig(
-    format="%(message)s",
-    stream=sys.stdout,
-    level=logging.INFO,
-)
-
-logger.info(
-    "initial configuration", data=get_custom_settings(), level="INFO", severity=0
-)
-
+logger = setup_logging()
 
 def create_app():
     application = Flask(__name__)

@@ -39,10 +39,6 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
                 "method": record.args["m"],
                 "path": url,
                 "status": str(record.args["s"]),
-                "user_agent": record.args["a"],
-                "referer": record.args["f"],
-                "duration_in_ms": record.args["M"],
-                "pid": record.args["p"],
             },
             severity=severity,
         )
@@ -66,6 +62,7 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
             0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
         )
         payload.pop("time", None)
+        payload.pop("taskName", None)
         payload.pop("message", None)
 
         return payload

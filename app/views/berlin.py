@@ -1,9 +1,10 @@
 from flask import Blueprint, jsonify, request
 
-from app.logger import logger
+from app.logger import setup_logging
 from app.models import LocationModel
 from app.store import get_db
 
+logger = setup_logging()
 db = get_db()
 
 berlin_blueprint = Blueprint("berlin", __name__)
@@ -17,9 +18,7 @@ def berlin_code(key):
     except Exception as e:
         logger.error(
             event="error retrieving key from database ",
-            stack_trace=str(e),
-            level="ERROR",
-            severity=1,
+            error=str(e),
         )
 
         return jsonify({"key": key, "error": "Not found"}), 404
@@ -37,7 +36,7 @@ def berlin_search():
 
     try:
         log_message = f"Querying database with q={q}, state={state}, limit={limit}, lev_distance={lev_distance}"
-        logger.info(log_message, severity=0)
+        logger.info(log_message)
 
         result = db.query(q, state=state, limit=limit, lev_distance=lev_distance)
 
@@ -51,9 +50,7 @@ def berlin_search():
     except Exception as e:
         logger.error(
             event="error querying the database ",
-            stack_trace=str(e),
-            level="ERROR",
-            severity=1,
+            error=str(e),
         )
         return (
             jsonify({"error": "error querying the database"}),
