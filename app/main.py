@@ -1,10 +1,7 @@
-import logging
-import sys
-
 from flask import Flask
 
 from app.logger import setup_logging
-from app.settings import get_custom_settings, settings
+from app.settings import settings
 from app.views.berlin import berlin_blueprint
 from app.views.health import health_blueprint
 
