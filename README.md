@@ -92,6 +92,44 @@ This will return results of the form:
 }
 ```
 
+By supplying an additional parameter, `with_score=1`, the structure will change:
+
+```json
+{
+  "matches": [
+    {
+      "loc": {
+        "encoding": "UN-LOCODE",
+        "id": "ca:lod",
+        "key": "UN-LOCODE-ca:lod",
+        "words": [
+          "london"
+        ]
+      },
+      "match": {
+        "score": 1008,
+        "offset": [17, 22]
+      }
+    },
+    {
+      "loc": {
+        "encoding": "UN-LOCODE",
+        "id": "us:ldn",
+        "key": "UN-LOCODE-us:ldn",
+        "words": [
+          "london"
+        ]
+      },
+      "match": {
+        "score": 1008,
+        "offset": [17, 22]
+      }
+    }
+    ...
+  ]
+}
+```
+
 
 ## Description
 

@@ -5,6 +5,24 @@ from berlin import Location
 
 
 @dataclass
+class MatchModel:
+    score: int | None
+    offset: list[int] | None
+
+    @classmethod
+    def from_location(cls, loc: Location) -> "MatchModel":
+        try:
+            return cls(
+                score=loc.get_score(),
+                offset=loc.get_offset()
+            )
+        except AttributeError:
+            ...
+
+    def to_json(self):
+        return asdict(self)
+
+@dataclass
 class LocationModel:
     id: str
     key: str

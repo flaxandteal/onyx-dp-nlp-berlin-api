@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 
 from app.logger import setup_logging
-from app.models import LocationModel
+from app.models import LocationModel, MatchModel
 from app.store import get_db
 
 logger = setup_logging()
@@ -33,6 +33,7 @@ def berlin_search():
     state = request.args.get("state") or "gb"
     limit = request.args.get("limit", type=int) or 10
     lev_distance = request.args.get("lev_distance", type=int) or 2
+    with_scores = request.args.get("with_scores", type=bool) or False
 
     try:
         log_message = f"Querying database with q={q}, state={state}, limit={limit}, lev_distance={lev_distance}"
@@ -40,10 +41,21 @@ def berlin_search():
 
         result = db.query(q, state=state, limit=limit, lev_distance=lev_distance)
 
-        locations = {
-            "matches": [
-                LocationModel.from_location(loc, db).to_json() for loc in result
+        if with_scores:
+            matches = [
+                {
+                    "loc": LocationModel.from_location(loc, db).to_json(),
+                    "match": MatchModel.from_location(loc).to_json()
+                } for loc in result
             ]
+        else:
+            matches = [
+                LocationModel.from_location(loc, db).to_json()
+                for loc in result
+            ]
+
+        locations = {
+            "matches": matches
         }
         return jsonify(locations), 200
 
