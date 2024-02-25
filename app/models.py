@@ -1,8 +1,10 @@
 from dataclasses import asdict, dataclass
 from typing import Optional
-
 from berlin import Location
+from app.logger import setup_logging
 
+
+logger = setup_logging()
 
 @dataclass
 class MatchModel:
@@ -17,7 +19,7 @@ class MatchModel:
                 offset=loc.get_offset()
             )
         except AttributeError:
-            ...
+            logger.error("no offset or score available")
 
     def to_json(self):
         return asdict(self)

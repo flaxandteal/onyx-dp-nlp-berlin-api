@@ -101,6 +101,13 @@ def fake_berlin_load(location):
 
         def get_state_code(self):
             return "gb"
+        
+        def get_score(self):
+            return 1010 
+        
+        def get_offset(self):
+            return [0, 10]
+        
 
     class FakeBerlinDbProxy:
         def query(self, query, state, limit, lev_distance):

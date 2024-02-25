@@ -51,38 +51,54 @@ def test_search_with_scores_with_berlin(test_client_with_berlin):
 
 def test_search_with_state_with_berlin(test_client_with_berlin):
     response = test_client_with_berlin.get(
-        "/berlin/search?q=Lyuliakovo&state=BG&limit=2"
+        "/berlin/search?q=Lyuliakovo&state=BG&limit=2&with_scores=1"
     )
     assert response.status_code == 200
     assert isinstance(response.json, dict)
     assert response.json == {
-        "matches": [{
-            "encoding": "UN-LOCODE",
-            "id": "bg:blo",
-            "key": "UN-LOCODE-bg:blo",
-            "names": ["lyuliakovo"],
-            "words": ["lyuliakovo"],
-            "codes": ["blo"],
-            "state": ["bg", "ISO-3166-1-bg"],
-            "subdiv": ["02", "ISO-3166-2-bg:02"],
+        'matches': [{
+            'loc': {
+                'codes': ['blo'],
+                'encoding': 'UN-LOCODE', 
+                'id': 'bg:blo', 
+                'key': 'UN-LOCODE-bg:blo', 
+                'names': ['lyuliakovo'], 
+                'state': ['bg', 'ISO-3166-1-bg'], 
+                'subdiv': ['02', 'ISO-3166-2-bg:02'], 
+                'words': ['lyuliakovo']
+            }, 
+            'match': {
+                'offset': [0, 10], 
+                'score': 1010
+            }
         }]
     }
     print(response.json)
 
 
 def test_search_with_state(test_client):
-    response = test_client.get("/berlin/search?q=Manch&state=GB&limit=2")
+    response = test_client.get("/berlin/search?q=Manch&state=GB&limit=2&with_scores=1")
+    print(response.json)
     assert response.status_code == 200
     assert isinstance(response.json, dict)
     assert response.json == {
-        "matches": [{
-            "encoding": "B",
-            "id": "X",
-            "key": "A",
-            "names": ["manc"],
-            "words": ["Manchester"],
-            "codes": ["mnc"],
-            "state": ["gb", "gb-nom"],
-            "subdiv": ["mac", "gb-mac-name"],
+        'matches': [{
+            'loc': {
+                'codes': ['mnc'], 
+                'encoding': 'B', 
+                'id': 'X', 
+                'key': 'A', 
+                'names': ['manc'], 
+                'state': ['gb', 'gb-nom'], 
+                'subdiv': ['mac', 'gb-mac-name'], 
+                'words': ['Manchester']
+            }, 
+            'match': {
+                'offset': [0, 10], 
+                'score': 1010
+            
+            }
         }]
     }
+    print(response.json)
+
