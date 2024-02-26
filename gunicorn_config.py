@@ -27,7 +27,7 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
             url += f"?{record.args['q']}"
 
         severity = (
-            0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+            3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
         )
 
         return dict(
@@ -59,7 +59,7 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
         payload["event"] = record.getMessage()
         payload["level"] = record.levelname
         payload["severity"] = (
-            0 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 2
+            3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
         )
         payload.pop("time", None)
         payload.pop("taskName", None)
