@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request
 
+from app.logger import setup_logging
 from app.models import LocationModel, MatchModel
 from app.store import get_db
-from app.logger import setup_logging
 
 logger = setup_logging()
 db = get_db()
@@ -33,35 +33,33 @@ def berlin_search():
     state = request.args.get("state") or "gb"
     limit = request.args.get("limit", type=int) or 10
     lev_distance = request.args.get("lev_distance", type=int) or 2
-    with_scores = request.args.get("with_scores", type=bool) or False
 
     try:
-        log_message = f"Querying database with q={q}, state={state}, limit={limit}, lev_distance={lev_distance}"
-        logger.info(log_message)
+        logger.info(
+            event="Querying database",
+            data={
+                "q": q,
+                "state": state,
+                "limit": limit,
+                "lev_distance": lev_distance,
+            },
+        )
 
         result = db.query(q, state=state, limit=limit, lev_distance=lev_distance)
 
-        if with_scores:
-            matches = [
-                {
-                    "loc": LocationModel.from_location(loc, db).to_json(),
-                    "match": MatchModel.from_location(loc).to_json()
-                } for loc in result
-            ]
+        matches = [
+            {
+                "loc": LocationModel.from_location(loc, db).to_json(),
+                "scores": MatchModel.from_location(loc).to_json(),
+            }
+            for loc in result
+        ]
 
-            start_idx = matches[0]["match"]["offset"][0]
-            end_idx = matches[0]["match"]["offset"][1]
-            q = q[:start_idx] + q[end_idx:]
-        else:
-            matches = [
-                LocationModel.from_location(loc, db).to_json()
-                for loc in result
-            ]
+        start_idx = matches[0]["scores"]["offset"][0]
+        end_idx = matches[0]["scores"]["offset"][1]
+        q = q[:start_idx] + q[end_idx:]
 
-        locations = {
-            "query": q,
-            "matches": matches
-        }
+        locations = {"query": q, "matches": matches}
         return jsonify(locations), 200
 
     except Exception as e:

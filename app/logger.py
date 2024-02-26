@@ -1,10 +1,12 @@
 import logging
 import logging.config
+from datetime import datetime
+
 import structlog
 import structlog._log_levels
 
-from datetime import datetime
 from app.settings import settings
+
 
 def add_severity_level(logger, method_name, event_dict):
     if method_name == "info":

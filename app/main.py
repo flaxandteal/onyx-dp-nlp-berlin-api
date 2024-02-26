@@ -7,6 +7,7 @@ from app.views.health import health_blueprint
 
 logger = setup_logging()
 
+
 def create_app():
     application = Flask(__name__)
     application.register_blueprint(berlin_blueprint)
