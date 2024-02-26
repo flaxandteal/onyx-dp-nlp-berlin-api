@@ -92,7 +92,7 @@ This will return results of the form:
 }
 ```
 
-By supplying an additional parameter, `with_score=1`, the structure will change:
+By supplying an additional parameter, `with_scores=1`, the structure will change:
 
 ```json
 {
