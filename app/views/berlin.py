@@ -48,6 +48,10 @@ def berlin_search():
                     "match": MatchModel.from_location(loc).to_json()
                 } for loc in result
             ]
+
+            start_idx = matches[0]["match"]["offset"][0]
+            end_idx = matches[0]["match"]["offset"][1]
+            q = q[:start_idx] + q[end_idx:]
         else:
             matches = [
                 LocationModel.from_location(loc, db).to_json()
@@ -55,6 +59,7 @@ def berlin_search():
             ]
 
         locations = {
+            "query": q,
             "matches": matches
         }
         return jsonify(locations), 200
