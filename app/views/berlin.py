@@ -55,9 +55,10 @@ def berlin_search():
             for loc in result
         ]
 
-        start_idx = matches[0]["scores"]["offset"][0]
-        end_idx = matches[0]["scores"]["offset"][1]
-        q = q[:start_idx] + q[end_idx:]
+        if matches:
+            start_idx = matches[0]["scores"]["offset"][0]
+            end_idx = matches[0]["scores"]["offset"][1]
+            q = q[:start_idx] + q[end_idx:]
 
         locations = {"query": q, "matches": matches}
         return jsonify(locations), 200
