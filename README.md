@@ -66,26 +66,36 @@ curl 'http://localhost:28900/berlin/search?q=house+prices+in+londo&state=gb' | j
 
 replacing `localhost` with the local endpoint (`jq` used for formatting).
 
-This will return results of the form:
-
 ```json
 {
   "matches": [
     {
-      "encoding": "UN-LOCODE",
-      "id": "ca:lod",
-      "key": "UN-LOCODE-ca:lod",
-      "words": [
-        "london"
-      ]
+      "loc": {
+        "encoding": "UN-LOCODE",
+        "id": "ca:lod",
+        "key": "UN-LOCODE-ca:lod",
+        "words": [
+          "london"
+        ]
+      },
+      "match": {
+        "score": 1008,
+        "offset": [17, 22]
+      }
     },
     {
-      "encoding": "UN-LOCODE",
-      "id": "us:ldn",
-      "key": "UN-LOCODE-us:ldn",
-      "words": [
-        "london"
-      ]
+      "loc": {
+        "encoding": "UN-LOCODE",
+        "id": "us:ldn",
+        "key": "UN-LOCODE-us:ldn",
+        "words": [
+          "london"
+        ]
+      },
+      "match": {
+        "score": 1008,
+        "offset": [17, 22]
+      }
     }
     ...
   ]

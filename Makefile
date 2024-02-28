@@ -42,7 +42,7 @@ run: deps ## Start the api locally on port 28900.
 	@FLASK_APP=${FLASK_APP} poetry run gunicorn "app.main:create_app()" -b 0.0.0.0:${BERLIN_API_PORT} -c gunicorn_config.py
 
 run-container: build ## Runs a container from the pre-build image 
-	docker run -p 28900:28900 --env BERLIN_API_BUILD_TIME='${BERLIN_API_BUILD_TIME}' -e BERLIN_API_BUILD_TIME="${BERLIN_API_BUILD_TIME}" -e BERLIN_API_VERSION="${BERLIN_API_VERSION}" -ti berlin_api
+	docker run -p 28940:28900 --env BERLIN_API_BUILD_TIME='${BERLIN_API_BUILD_TIME}' -e BERLIN_API_BUILD_TIME="${BERLIN_API_BUILD_TIME}" -e BERLIN_API_VERSION="${BERLIN_API_VERSION}" -ti berlin_api
 
 test: deps ## runs all tests
 	poetry run pytest -v tests/
@@ -63,4 +63,3 @@ help: ## Show this help.
 		if (/^[a-zA-Z_-]+:.*?##.*$$/) {printf "    ${YELLOW}%-20s${GREEN}%s${RESET}\n", $$1, $$2} \
 		else if (/^## .*$$/) {printf "  ${CYAN}%s${RESET}\n", substr($$1,4)} \
 		}' $(MAKEFILE_LIST)
-

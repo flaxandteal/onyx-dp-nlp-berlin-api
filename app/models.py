@@ -3,6 +3,26 @@ from typing import Optional
 
 from berlin import Location
 
+from app.logger import setup_logging
+
+logger = setup_logging()
+
+
+@dataclass
+class MatchModel:
+    score: int | None
+    offset: list[int] | None
+
+    @classmethod
+    def from_location(cls, loc: Location) -> "MatchModel":
+        try:
+            return cls(score=loc.get_score(), offset=loc.get_offset())
+        except AttributeError:
+            logger.error("no offset or score available")
+
+    def to_json(self):
+        return asdict(self)
+
 
 @dataclass
 class LocationModel:
