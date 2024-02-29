@@ -36,7 +36,7 @@ job "dp-nlp-berlin-api" {
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["python", "-m", "app.main"]
+        args = ["python", "-m", "gunicorn", "app.main:create_app()", "-c", "gunicorn_config.py"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
 
@@ -100,7 +100,7 @@ job "dp-nlp-berlin-api" {
       config {
         command = "${NOMAD_TASK_DIR}/start-task"
 
-        args = ["python", "-m", "app.main"]
+        args = ["python", "-m", "gunicorn", "app.main:create_app()", "-c", "gunicorn_config.py"]
 
         image = "{{ECR_URL}}:concourse-{{REVISION}}"
       }
