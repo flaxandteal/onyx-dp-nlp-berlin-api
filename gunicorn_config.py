@@ -29,6 +29,9 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
             path = url
         if record.args["q"]:
             url += f"?{record.args['q']}"
+            query = record.args['q']
+        else:
+            query = ""
 
         severity = (
             3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
@@ -40,9 +43,10 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
             created_at=response_time.isoformat(timespec="milliseconds") + "Z",
             data={
                 "remote_ip": record.args["h"],
-                "status": str(record.args["s"]),
             },
+            status_code=int(record.args["s"]),
             method=record.args["m"],
+            query=query,
             path=path,
             severity=severity,
         )
