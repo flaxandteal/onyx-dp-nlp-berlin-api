@@ -45,7 +45,18 @@ def berlin_search():
             },
         )
 
-        result = db.query(q, state=state, limit=limit, lev_distance=lev_distance)
+        try:
+            result = db.query(q, state=state, limit=limit, lev_distance=lev_distance)
+        except BaseException as e:
+            raise Exception(e)
+            logger.error(
+                event="error querying the database (rust) ",
+                error=str(e),
+            )
+            return (
+                jsonify({"error": "error querying the database"}),
+                500,
+            )
 
         matches = [
             {

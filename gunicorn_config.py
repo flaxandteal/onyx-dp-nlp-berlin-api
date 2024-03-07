@@ -23,6 +23,11 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
             record.args["t"], "[%d/%b/%Y:%H:%M:%S %z]"
         )
         url = record.args["U"]
+        if "?" in url:
+            path, query = url.split("?", 1)
+        else:
+            path = url
+            query = ""
         if record.args["q"]:
             url += f"?{record.args['q']}"
 
@@ -36,10 +41,10 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
             created_at=response_time.isoformat(timespec="milliseconds") + "Z",
             data={
                 "remote_ip": record.args["h"],
-                "method": record.args["m"],
-                "path": url,
                 "status": str(record.args["s"]),
             },
+            method=record.args["m"],
+            path=path,
             severity=severity,
         )
 
@@ -56,8 +61,21 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
         )
         payload["namespace"] = settings.NAMESPACE
         payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z",
-        payload["event"] = record.getMessage()
-        payload["level"] = record.levelname
+        payload["errors"] = [
+            {
+                "message": event,
+                "data": {
+                    "level": record.levelname
+                }
+            }
+        ]
+        try:
+            exc = extra["exc"]
+            stack_trace = traceback.extract_tb(exc.__traceback__).format()
+            payload["errors"][0]["stack_trace"] = stack_trace
+        except:
+            ...
+
         payload["severity"] = (
             3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
         )
