@@ -104,7 +104,7 @@ def test_search_with_state(test_client):
     print(response.json)
 
 
-def test_search_with_state(test_client):
+def test_search_too_long(test_client):
     response = test_client.get(r"/berlin/search?q=Are%20there%20two%20international%20statistics%20evaluations%20with%20three%20international%20values%20that%20the%20average%20is%20lower%20than")
     assert response.status_code == 200
     assert isinstance(response.json, dict)
