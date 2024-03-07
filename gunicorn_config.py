@@ -33,7 +33,7 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         return dict(
             namespace=settings.NAMESPACE,
             event="making request",
-            created_at=response_time.isoformat(),
+            created_at=response_time.isoformat(timespec="milliseconds") + "Z",
             data={
                 "remote_ip": record.args["h"],
                 "method": record.args["m"],
@@ -55,7 +55,7 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
             event, extra, record
         )
         payload["namespace"] = settings.NAMESPACE
-        payload["created_at"] = payload["time"]
+        payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z",
         payload["event"] = record.getMessage()
         payload["level"] = record.levelname
         payload["severity"] = (
