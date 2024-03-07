@@ -61,21 +61,15 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
         )
         payload["namespace"] = settings.NAMESPACE
         payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z",
+        payload["event"] = record.getMessage()
         payload["errors"] = [
             {
-                "message": event,
+                "message": record.getMessage(),
                 "data": {
                     "level": record.levelname
                 }
             }
         ]
-        try:
-            exc = extra["exc"]
-            stack_trace = traceback.extract_tb(exc.__traceback__).format()
-            payload["errors"][0]["stack_trace"] = stack_trace
-        except:
-            ...
-
         payload["severity"] = (
             3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
         )

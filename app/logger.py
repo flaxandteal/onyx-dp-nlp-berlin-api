@@ -1,5 +1,6 @@
 import logging
 import logging.config
+import traceback
 from datetime import datetime
 
 import structlog
@@ -16,6 +17,24 @@ def add_severity_level(logger, method_name, event_dict):
 
     return event_dict
 
+def format_errors(*excs: BaseException):
+    errors = []
+
+    for exc in excs:
+        error = {
+            "message": str(exc),
+            "data": {
+                "level": "ERROR"
+            }
+        }
+        try:
+            stack_trace = traceback.extract_tb(exc.__traceback__).format()
+            error["stack_trace"] = stack_trace
+        except Exception as e:
+            print(e)
+            ...
+        errors.append(error)
+    return errors
 
 def setup_logging():
     shared_processors = []

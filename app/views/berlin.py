@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from app.logger import setup_logging
+from app.logger import setup_logging, format_errors
 from app.models import LocationModel, MatchModel
 from app.store import get_db
 
@@ -48,10 +48,9 @@ def berlin_search():
         try:
             result = db.query(q, state=state, limit=limit, lev_distance=lev_distance)
         except BaseException as e:
-            raise Exception(e)
             logger.error(
                 event="error querying the database (rust) ",
-                error=str(e),
+                errors=format_errors(e),
             )
             return (
                 jsonify({"error": "error querying the database"}),
