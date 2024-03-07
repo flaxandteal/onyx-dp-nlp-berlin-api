@@ -35,8 +35,11 @@ def berlin_search():
     lev_distance = request.args.get("lev_distance", type=int) or 2
 
     if len(q) > 30:
-        if (loc := q[:30:-1].find(" ")) > 0:
+        # Find the first space before 30th character
+        if (loc := q[:30][::-1].find(" ")) > 0:
+            print(loc, q, q[:30][::-1])
             q = q[:29 - loc]
+        # ...or take up to the 30th character if none.
         else:
             q = q[:30]
 

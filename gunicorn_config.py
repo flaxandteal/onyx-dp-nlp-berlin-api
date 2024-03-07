@@ -24,10 +24,9 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         )
         url = record.args["U"]
         if "?" in url:
-            path, query = url.split("?", 1)
+            path, _ = url.split("?", 1)
         else:
             path = url
-            query = ""
         if record.args["q"]:
             url += f"?{record.args['q']}"
 
