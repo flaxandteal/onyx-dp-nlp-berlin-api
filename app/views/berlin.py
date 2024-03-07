@@ -34,6 +34,12 @@ def berlin_search():
     limit = request.args.get("limit", type=int) or 10
     lev_distance = request.args.get("lev_distance", type=int) or 2
 
+    if len(q) > 30:
+        if (loc := q[:30:-1].find(" ")) > 0:
+            q = q[:29 - loc]
+        else:
+            q = q[:30]
+
     try:
         logger.info(
             event="Querying database",
