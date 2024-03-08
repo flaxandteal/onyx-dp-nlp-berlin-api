@@ -63,7 +63,7 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
             event, extra, record
         )
         payload["namespace"] = settings.NAMESPACE
-        payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z",
+        payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z"
         payload["event"] = record.getMessage()
         payload["errors"] = [
             {
