@@ -12,6 +12,7 @@ def create_app():
     application = Flask(__name__)
     application.register_blueprint(berlin_blueprint)
     application.register_blueprint(health_blueprint)
+    raise Exception("Intentional crash during Gunicorn startup")
     return application
 
 

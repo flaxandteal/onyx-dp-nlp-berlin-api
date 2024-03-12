@@ -8,6 +8,36 @@ import json_log_formatter
 
 from app.settings import settings
 
+import re
+
+def format_stack_trace(stack_trace):
+    # Split the stack trace into lines removing caret chars
+    lines = ''.join(stack_trace.split()).replace('^', '')
+
+    # Split by File as there's always 1 file per entry
+    lines = lines.split("File")
+
+    # Remove first entry as it's always Traceback(mostrecentcalllast)
+    lines = lines[1:]
+    
+    # Initialize an empty list to store formatted stack trace entries
+    formatted_stack_trace = []
+    
+    # Iterate through each line in the stack trace
+    for line in lines:
+        # split by "," to separate file_path, line_number, function_name
+        line = line.split(",")
+        file_path, line_number, function_name = line[0], line[1], line[2]
+
+        formatted_entry = {
+            "file": file_path,
+            "function": function_name,
+            "line": ''.join(line_number.split("line")),
+        }
+        
+        formatted_stack_trace.append(formatted_entry)
+    
+    return formatted_stack_trace
 
 class JsonRequestFormatter(json_log_formatter.JSONFormatter):
     def json_record(
@@ -16,43 +46,43 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         extra: dict[str, str | int | float],
         record: logging.LogRecord,
     ) -> dict[str, str | int | float]:
-        # Convert the log record to a JSON object.
-        # See https://docs.gunicorn.org/en/stable/settings.html#access-log-format
-
-        response_time = datetime.datetime.strptime(
-            record.args["t"], "[%d/%b/%Y:%H:%M:%S %z]"
+        payload: dict[str, str | int | float] = super().json_record(
+            event, extra, record
         )
-        url = record.args["U"]
-        if "?" in url:
-            path, _ = url.split("?", 1)
+        colon_index = record.args["{host}i"].find(':')
+        port = record.args["{host}i"][colon_index + 1:].strip()
+        payload["namespace"] = settings.NAMESPACE
+        payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z"
+        payload["event"] = "making request"
+        payload["http"] = {
+            "method": record.args["m"],
+            "scheme": record.args["H"],
+            "host": record.args["h"],
+            "port": port,
+            "path": record.args["U"],
+            "query": record.args["q"],
+            "status_code": record.args["s"],
+            "started_at": payload["time"].isoformat(timespec="milliseconds") + "Z",
+        }
+
+        if record.args["s"] != "200":
+            payload["severity"] = 1
+            payload["error"]= [
+                {
+                    "message": "received non-200 status code"
+                }
+            ]
         else:
-            path = url
-        if record.args["q"]:
-            url += f"?{record.args['q']}"
-            query = record.args['q']
-        else:
-            query = ""
+            payload["severity"] = 3
 
-        severity = (
-            3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
-        )
+        # Remove unnecessary default fields
+        payload.pop("time", None)
+        payload.pop("taskName", None)
+        payload.pop("message", None)
 
-        return dict(
-            namespace=settings.NAMESPACE,
-            event="making request",
-            created_at=response_time.isoformat(timespec="milliseconds") + "Z",
-            data={
-                "remote_ip": record.args["h"],
-            },
-            status_code=int(record.args["s"]),
-            method=record.args["m"],
-            query=query,
-            path=path,
-            severity=severity,
-        )
+        return payload
 
-
-class JsonErrorFormatter(json_log_formatter.JSONFormatter):
+class JsonServerFormatter(json_log_formatter.JSONFormatter):
     def json_record(
         self,
         event: str,
@@ -64,19 +94,29 @@ class JsonErrorFormatter(json_log_formatter.JSONFormatter):
         )
         payload["namespace"] = settings.NAMESPACE
         payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z"
-        payload["event"] = record.getMessage()
-        payload["errors"] = [
-            {
-                "message": record.getMessage(),
-                "data": {
-                    "level": record.levelname
+
+        if record.levelname == "ERROR":
+            payload["event"] = "gunicorn has experienced an error"
+            payload["errors"] = [
+                {
+                    "message": record.getMessage(),
+                    "data": {
+                        "level": record.levelname
+                    }
                 }
-            }
-        ]
-        payload["severity"] = (
-            3 if record.levelname == "INFO" else 1 if record.levelname == "ERROR" else 0
-        )
+            ]
+
+            if "exc_info" in payload:
+                formatted_stack_trace = format_stack_trace(payload["exc_info"])
+                payload["errors"][0]["error"] = formatted_stack_trace
+
+            payload["severity"] = 1
+        else:
+            payload["event"] = record.getMessage()
+            payload["severity"] = 3
+
         payload.pop("time", None)
+        payload.pop("exc_info", None)
         payload.pop("taskName", None)
         payload.pop("message", None)
 
@@ -91,8 +131,8 @@ logconfig_dict = {
         "json_request": {
             "()": JsonRequestFormatter,
         },
-        "json_error": {
-            "()": JsonErrorFormatter,
+        "json_server": {
+            "()": JsonServerFormatter,
         },
     },
     "handlers": {
@@ -101,10 +141,10 @@ logconfig_dict = {
             "stream": sys.stdout,
             "formatter": "json_request",
         },
-        "json_error": {
+        "json_server": {
             "class": "logging.StreamHandler",
             "stream": sys.stdout,
-            "formatter": "json_error",
+            "formatter": "json_server",
         },
     },
     "root": {"level": "INFO", "handlers": []},
@@ -116,10 +156,11 @@ logconfig_dict = {
         },
         "gunicorn.error": {
             "level": "INFO",
-            "handlers": ["json_error"],
+            "handlers": ["json_server"],
             "propagate": False,
         },
     },
 }
 
 bind = f"0.0.0.0:{settings.PORT}"
+
