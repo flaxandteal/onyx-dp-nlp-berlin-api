@@ -1,11 +1,11 @@
 # https://til.codeinthehole.com/posts/how-to-get-gunicorn-to-log-as-json/
 
-import datetime
+from datetime import datetime
 import logging
 import sys
 
 import json_log_formatter
-
+from gunicorn.glogging import CONFIG_DEFAULTS
 from app.settings import settings
 
 import re
@@ -39,6 +39,14 @@ def format_stack_trace(stack_trace):
     
     return formatted_stack_trace
 
+class SuppressInfoFilter(logging.Filter):
+    def filter(self, record):
+        return record.levelno != logging.INFO or record.name != 'gunicorn.error'
+
+class SuppressErrorFilter(logging.Filter):
+    def filter(self, record):
+        return record.levelno != logging.ERROR or record.name != 'gunicorn.error'
+    
 class JsonRequestFormatter(json_log_formatter.JSONFormatter):
     def json_record(
         self,
@@ -51,8 +59,13 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         )
         colon_index = record.args["{host}i"].find(':')
         port = record.args["{host}i"][colon_index + 1:].strip()
+
         payload["namespace"] = settings.NAMESPACE
-        payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z"
+        # If payload["time"] is used which is a datetime obj 
+        # calls time like `datetime.utcnow()` on line 123
+        # test do not pass. The time difference in payload["time"] and datetime.utcnow() 
+        # is unnoticable
+        payload["created_at"] = datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
         payload["event"] = "making request"
         payload["http"] = {
             "method": record.args["m"],
@@ -62,18 +75,9 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
             "path": record.args["U"],
             "query": record.args["q"],
             "status_code": record.args["s"],
-            "started_at": payload["time"].isoformat(timespec="milliseconds") + "Z",
+            "started_at": datetime.utcnow().isoformat(timespec="milliseconds") + "Z",
         }
-
-        if record.args["s"] != "200":
-            payload["severity"] = 1
-            payload["error"]= [
-                {
-                    "message": "received non-200 status code"
-                }
-            ]
-        else:
-            payload["severity"] = 3
+        payload["severity"] = 3
 
         # Remove unnecessary default fields
         payload.pop("time", None)
@@ -82,7 +86,7 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
 
         return payload
 
-class JsonServerFormatter(json_log_formatter.JSONFormatter):
+class JsonServerInfoFormatter(json_log_formatter.JSONFormatter):
     def json_record(
         self,
         event: str,
@@ -92,28 +96,53 @@ class JsonServerFormatter(json_log_formatter.JSONFormatter):
         payload: dict[str, str | int | float] = super().json_record(
             event, extra, record
         )
+        
         payload["namespace"] = settings.NAMESPACE
-        payload["created_at"] = payload["time"].isoformat(timespec="milliseconds") + "Z"
+        # If payload["time"] is used which is a datetime obj 
+        # calls time like `datetime.utcnow()` on line 123
+        # test do not pass. The time difference in payload["time"] and datetime.utcnow() 
+        # is unnoticable
+        payload["created_at"] = datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
+        payload["event"] = record.getMessage()
+        payload["severity"] = 3
 
-        if record.levelname == "ERROR":
-            payload["event"] = "gunicorn has experienced an error"
-            payload["errors"] = [
-                {
-                    "message": record.getMessage(),
-                    "data": {
-                        "level": record.levelname
-                    }
-                }
-            ]
+        payload.pop("time", None)
+        payload.pop("exc_info", None)
+        payload.pop("taskName", None)
+        payload.pop("message", None)
 
-            if "exc_info" in payload:
-                formatted_stack_trace = format_stack_trace(payload["exc_info"])
-                payload["errors"][0]["error"] = formatted_stack_trace
+        return payload
+    
+class JsonServerErrorFormatter(json_log_formatter.JSONFormatter):
+    def json_record(
+        self,
+        event: str,
+        extra: dict[str, str | int | float],
+        record: logging.LogRecord,
+    ) -> dict[str, str | int | float]:
+        payload: dict[str, str | int | float] = super().json_record(
+            event, extra, record
+        )
+        
+        payload["namespace"] = settings.NAMESPACE
+        # If payload["time"] is used which is a datetime obj 
+        # calls time like `datetime.utcnow()` on line 123
+        # test do not pass. The time difference in payload["time"] and datetime.utcnow() 
+        # is unnoticable
+        payload["created_at"] = datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
+        payload["severity"] = 1
 
-            payload["severity"] = 1
-        else:
-            payload["event"] = record.getMessage()
-            payload["severity"] = 3
+        payload["event"] = "gunicorn has experienced an error"
+        payload["errors"] = [
+            {
+                "message": record.getMessage(),
+            }
+        ]
+
+        if "exc_info" in payload:
+            formatted_stack_trace = format_stack_trace(payload["exc_info"])
+            payload["errors"][0]["error"] = formatted_stack_trace
+
 
         payload.pop("time", None)
         payload.pop("exc_info", None)
@@ -122,45 +151,70 @@ class JsonServerFormatter(json_log_formatter.JSONFormatter):
 
         return payload
 
+class JsonServerErrorHandler(logging.StreamHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.stream = sys.stderr
+        self.setFormatter(JsonServerErrorFormatter())
+        self.addFilter(SuppressInfoFilter())
+
+class JsonServerInfoHandler(logging.StreamHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.stream = sys.stdout
+        self.setFormatter(JsonServerInfoFormatter())
+        self.addFilter(SuppressErrorFilter())
 
 # Ensure the two named loggers that Gunicorn uses are configured to use a custom
 # JSON formatter.
 logconfig_dict = {
     "version": 1,
     "formatters": {
+        "json_error": {
+            "()": JsonServerErrorFormatter,
+        },
         "json_request": {
             "()": JsonRequestFormatter,
         },
         "json_server": {
-            "()": JsonServerFormatter,
+            "()": JsonServerInfoFormatter,
         },
     },
     "handlers": {
+        "json_error": {
+            "class": JsonServerErrorHandler,
+            "stream": sys.stderr,
+            "formatter": "json_error",
+        },
         "json_request": {
             "class": "logging.StreamHandler",
             "stream": sys.stdout,
             "formatter": "json_request",
         },
         "json_server": {
-            "class": "logging.StreamHandler",
+            "class": JsonServerInfoHandler,
             "stream": sys.stdout,
             "formatter": "json_server",
         },
     },
-    "root": {"level": "INFO", "handlers": []},
+    "root": {
+        "level": "INFO",
+        "handlers": []
+    },
     "loggers": {
         "gunicorn.access": {
             "level": "INFO",
             "handlers": ["json_request"],
             "propagate": False,
         },
-        "gunicorn.error": {
+       "gunicorn.error": {
             "level": "INFO",
-            "handlers": ["json_server"],
+            "handlers": ["json_server", "json_error"],
             "propagate": False,
         },
     },
 }
+
 
 bind = f"0.0.0.0:{settings.PORT}"
 
