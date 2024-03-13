@@ -1,11 +1,10 @@
+import traceback
 from dataclasses import asdict, dataclass
 from typing import Optional
 
 from berlin import Location
 
-from app.logger import setup_logging
-
-logger = setup_logging()
+from app.logger import format_errors, logger
 
 
 @dataclass
@@ -17,8 +16,11 @@ class MatchModel:
     def from_location(cls, loc: Location) -> "MatchModel":
         try:
             return cls(score=loc.get_score(), offset=loc.get_offset())
-        except AttributeError:
-            logger.error("no offset or score available")
+        except AttributeError as e:
+            logger.error(
+                event="no offset or score available",
+                errors=format_errors(e, trace=traceback.format_exc()),
+            )
 
     def to_json(self):
         return asdict(self)

@@ -1,12 +1,12 @@
 import logging
 import logging.config
-import traceback
 from datetime import datetime
 
 import structlog
 import structlog._log_levels
 
 from app.settings import settings
+from gunicorn_config import format_stack_trace
 
 
 def add_severity_level(logger, method_name, event_dict):
@@ -17,24 +17,21 @@ def add_severity_level(logger, method_name, event_dict):
 
     return event_dict
 
-def format_errors(*excs: BaseException):
+
+def format_errors(*excs: BaseException, trace=None):
     errors = []
 
     for exc in excs:
         error = {
             "message": str(exc),
-            "data": {
-                "level": "ERROR"
-            }
         }
-        try:
-            stack_trace = traceback.extract_tb(exc.__traceback__).format()
-            error["stack_trace"] = stack_trace
-        except Exception as e:
-            print(e)
-            ...
+        if trace:
+            error["error"] = format_stack_trace(trace)
+
         errors.append(error)
+
     return errors
+
 
 def setup_logging():
     shared_processors = []
@@ -85,3 +82,6 @@ def setup_logging():
         event="",
         severity=3,  # default
     )
+
+
+logger = setup_logging()

@@ -125,7 +125,7 @@ def test_search_too_long(test_client):
                 'score': 1010
             }
         }],
-        'query': 'two international'
+        'query': 'Are there two international statistics evaluations with three international values that the average is lower than'
     }
     print(response.json)
 

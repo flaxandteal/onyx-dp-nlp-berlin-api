@@ -1,18 +1,18 @@
+import logging.config
 import sys
-import pytest
 import unittest
+
 from datetime import datetime
 from io import StringIO
 from unittest.mock import patch
-import logging.config
-from gunicorn_config import JsonRequestFormatter, JsonServerInfoFormatter, JsonServerErrorFormatter, logconfig_dict
- 
+from gunicorn_config import (JsonRequestFormatter, JsonServerErrorFormatter,
+                             JsonServerInfoFormatter, logconfig_dict)
+
 
 class TestLogFormatting(unittest.TestCase):
     def setUp(self):
         logging.config.dictConfig(logconfig_dict)
 
-    @pytest.mark.filterwarnings("ignore::DeprecationWarning")
     def test_request_formatting(self):
         record = logging.LogRecord(
             name="gunicorn.access",
@@ -100,8 +100,8 @@ class TestLogFormatting(unittest.TestCase):
     def test_server_error_formatting(self):
         try:
             # This will raise a NameError
-            nonexistent_variable
-        except:
+            nonexistent_variable # noqa
+        except Exception:
             # Capture the exception information to use as actual traceback for the logging
             exc_info = sys.exc_info()
 
@@ -124,7 +124,7 @@ class TestLogFormatting(unittest.TestCase):
                 expected={
                     'namespace': 'dp-nlp-berlin-api', 
                     'created_at': '2024-03-11T15:50:52.180+00:00Z', 
-                    'event': 'gunicorn has experienced an error',
+                    'event': 'server has experienced an error',
                     'errors': [
                         {
                             "message": 'specific err msg',
@@ -147,7 +147,7 @@ class TestLogFormatting(unittest.TestCase):
 def parsable_isoformat(time):
     desired_format = "%Y-%m-%dT%H:%M:%S.%fZ"
     try:
-        datetime_obj = datetime.strptime(time, desired_format)
+        _ = datetime.strptime(time, desired_format)
         return True  # If parsing succeeds, the format is correct
     except ValueError:
         return False, "Invalid format"
