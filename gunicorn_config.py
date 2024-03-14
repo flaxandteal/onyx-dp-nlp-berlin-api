@@ -66,7 +66,7 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         payload["created_at"] = (
             datetime.utcnow().isoformat(timespec="milliseconds") + "Z"
         )
-        payload["event"] = "making request"
+        payload["event"] = "http request received"
         payload["severity"] = 3
         payload["http"] = {
             "method": record.args["m"],
