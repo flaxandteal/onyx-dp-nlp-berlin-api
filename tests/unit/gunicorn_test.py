@@ -41,7 +41,7 @@ class TestLogFormatting(unittest.TestCase):
 
             expected={
                 'namespace': 'dp-nlp-berlin-api', 
-                'event': 'making request', 
+                'event': 'http request received', 
                 'http': {
                     'method': 'GET', 
                     'scheme': 'https', 
