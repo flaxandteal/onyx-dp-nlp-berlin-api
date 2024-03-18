@@ -49,7 +49,10 @@ def berlin_search():
             query = q
                 
         try:
-            print(query)
+            logger.info(
+                event="searching database for query",
+                data={"query":query}
+            )
             result = db.query(query, state=state, limit=limit, lev_distance=lev_distance)
         except BaseException as e:
             logger.error(
