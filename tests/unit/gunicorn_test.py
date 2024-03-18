@@ -45,8 +45,6 @@ class TestLogFormatting(unittest.TestCase):
                 'http': {
                     'method': 'GET', 
                     'scheme': 'https', 
-                    'host': '127.0.0.1',
-                    'port': '1234',
                     'path': '/path/to/resource',
                     'query': 'param=value', 
                     'status_code': '200',
@@ -63,8 +61,6 @@ class TestLogFormatting(unittest.TestCase):
             # Http logs 
             self.assertEqual(expected["http"]["method"], formatted_log["http"]["method"])
             self.assertEqual(expected["http"]["scheme"], formatted_log["http"]["scheme"])
-            self.assertEqual(expected["http"]["host"], formatted_log["http"]["host"])
-            self.assertEqual(expected["http"]["port"], formatted_log["http"]["port"])
             self.assertEqual(expected["http"]["path"], formatted_log["http"]["path"])
             self.assertEqual(expected["http"]["query"], formatted_log["http"]["query"])
             self.assertTrue(parsable_isoformat(time=formatted_log["http"]["started_at"]))

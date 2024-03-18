@@ -59,8 +59,6 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         payload: dict[str, str | int | float] = super().json_record(
             event, extra, record
         )
-        colon_index = record.args["{host}i"].find(":")
-        port = record.args["{host}i"][colon_index + 1 :].strip()
 
         payload["namespace"] = settings.NAMESPACE
         payload["created_at"] = (
@@ -71,8 +69,6 @@ class JsonRequestFormatter(json_log_formatter.JSONFormatter):
         payload["http"] = {
             "method": record.args["m"],
             "scheme": record.args["H"],
-            "host": record.args["h"],
-            "port": port,
             "path": record.args["U"],
             "query": record.args["q"],
             "status_code": record.args["s"],
