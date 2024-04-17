@@ -34,7 +34,7 @@ dev = [
     "pytest-cov>=3.0.0,<3.1",
     "pytest-xdist>=2.5.0,<2.6",
     "pytest-sugar>=0.9.4,<0.10",
-    "black>=22.10.0,<22.11"
+    "black>=24.3.0,<24.4"
 ]
 
 [tool.black]
@@ -80,7 +80,7 @@ pylint-quotes = "^0.2.3"
 pytest-cov = "^3.0.0"
 pytest-xdist = "^2.5.0"
 pytest-sugar = "^0.9.4"
-black = "^22.10.0"
+black = "^24.3.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
