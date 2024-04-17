@@ -22,7 +22,7 @@ dependencies = [
     "gunicorn",
     "structlog>=21.5.0,<21.6",
     "python-dateutil>=2.8.2,<2.9",
-    "berlin>=0.3.12,<4",
+    "berlin>=0.3.12,<0.4",
 ]
 
 [project.optional-dependencies]
