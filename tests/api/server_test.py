@@ -103,3 +103,29 @@ def test_search_with_state(test_client):
     }
     print(response.json)
 
+
+def test_search_too_long(test_client):
+    response = test_client.get(r"/berlin/search?q=Are%20there%20two%20international%20statistics%20evaluations%20with%20three%20international%20values%20that%20the%20average%20is%20lower%20than")
+    assert response.status_code == 200
+    assert isinstance(response.json, dict)
+    assert response.json == {
+        'matches': [{
+            'loc': {
+                'codes': ['mnc'], 
+                'encoding': 'B', 
+                'id': 'X', 
+                'key': 'A', 
+                'names': ['manc'], 
+                'state': ['gb', 'gb-nom'], 
+                'subdiv': ['mac', 'gb-mac-name'], 
+                'words': ['Manchester']
+            }, 
+            'scores': {
+                'offset': [0, 10], 
+                'score': 1010
+            }
+        }],
+        'query': 'Are there two international statistics evaluations with three international values that the average is lower than'
+    }
+    print(response.json)
+

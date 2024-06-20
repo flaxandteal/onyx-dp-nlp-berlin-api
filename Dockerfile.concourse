@@ -4,10 +4,11 @@ RUN mkdir data
 COPY data data/
 
 COPY .env.default .
+COPY gunicorn_config.py .
 
 COPY dist/dp_nlp_berlin_api-*-py3-none-any.whl .
 
 RUN pip install dp_nlp_berlin_api-*-py3-none-any.whl
 
-CMD ["python", "-m", "app.main"]
+CMD ["python", "-m", "gunicorn", "app.main:create_app()", "-c", "gunicorn_config.py"]
 
